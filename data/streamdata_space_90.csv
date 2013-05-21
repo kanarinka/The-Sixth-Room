@@ -1,0 +1,631 @@
+index,date,venue,num_visitors
+0,5/20/2013,North America,1502
+0,5/20/2013,Europe,1854
+0,5/20/2013,South America,871
+0,5/20/2013,Africa,411
+0,5/20/2013,Asia,832
+0,5/20/2013,Australia,718
+0,5/20/2013,Antarctica,4
+1,5/21/2013,North America,1484
+1,5/21/2013,Europe,1851
+1,5/21/2013,South America,854
+1,5/21/2013,Africa,488
+1,5/21/2013,Asia,537
+1,5/21/2013,Australia,789
+1,5/21/2013,Antarctica,5
+2,5/22/2013,North America,1773
+2,5/22/2013,Europe,1836
+2,5/22/2013,South America,949
+2,5/22/2013,Africa,272
+2,5/22/2013,Asia,628
+2,5/22/2013,Australia,782
+2,5/22/2013,Antarctica,2
+3,5/23/2013,North America,1580
+3,5/23/2013,Europe,1661
+3,5/23/2013,South America,949
+3,5/23/2013,Africa,366
+3,5/23/2013,Asia,939
+3,5/23/2013,Australia,982
+3,5/23/2013,Antarctica,8
+4,5/24/2013,North America,1949
+4,5/24/2013,Europe,1967
+4,5/24/2013,South America,943
+4,5/24/2013,Africa,409
+4,5/24/2013,Asia,658
+4,5/24/2013,Australia,936
+4,5/24/2013,Antarctica,0
+5,5/25/2013,North America,1929
+5,5/25/2013,Europe,1572
+5,5/25/2013,South America,741
+5,5/25/2013,Africa,388
+5,5/25/2013,Asia,980
+5,5/25/2013,Australia,962
+5,5/25/2013,Antarctica,9
+6,5/26/2013,North America,1761
+6,5/26/2013,Europe,1766
+6,5/26/2013,South America,696
+6,5/26/2013,Africa,428
+6,5/26/2013,Asia,988
+6,5/26/2013,Australia,742
+6,5/26/2013,Antarctica,4
+7,5/27/2013,North America,1153
+7,5/27/2013,Europe,1608
+7,5/27/2013,South America,865
+7,5/27/2013,Africa,288
+7,5/27/2013,Asia,827
+7,5/27/2013,Australia,797
+7,5/27/2013,Antarctica,2
+8,5/28/2013,North America,1017
+8,5/28/2013,Europe,1811
+8,5/28/2013,South America,886
+8,5/28/2013,Africa,223
+8,5/28/2013,Asia,593
+8,5/28/2013,Australia,999
+8,5/28/2013,Antarctica,0
+9,5/29/2013,North America,1578
+9,5/29/2013,Europe,1575
+9,5/29/2013,South America,769
+9,5/29/2013,Africa,353
+9,5/29/2013,Asia,890
+9,5/29/2013,Australia,880
+9,5/29/2013,Antarctica,8
+10,5/30/2013,North America,1419
+10,5/30/2013,Europe,1643
+10,5/30/2013,South America,789
+10,5/30/2013,Africa,465
+10,5/30/2013,Asia,611
+10,5/30/2013,Australia,994
+10,5/30/2013,Antarctica,8
+11,5/31/2013,North America,1107
+11,5/31/2013,Europe,1942
+11,5/31/2013,South America,586
+11,5/31/2013,Africa,394
+11,5/31/2013,Asia,573
+11,5/31/2013,Australia,791
+11,5/31/2013,Antarctica,1
+12,6/1/2013,North America,1816
+12,6/1/2013,Europe,1546
+12,6/1/2013,South America,756
+12,6/1/2013,Africa,202
+12,6/1/2013,Asia,727
+12,6/1/2013,Australia,651
+12,6/1/2013,Antarctica,8
+13,6/2/2013,North America,1415
+13,6/2/2013,Europe,1967
+13,6/2/2013,South America,957
+13,6/2/2013,Africa,376
+13,6/2/2013,Asia,989
+13,6/2/2013,Australia,963
+13,6/2/2013,Antarctica,0
+14,6/3/2013,North America,1971
+14,6/3/2013,Europe,1568
+14,6/3/2013,South America,615
+14,6/3/2013,Africa,213
+14,6/3/2013,Asia,809
+14,6/3/2013,Australia,897
+14,6/3/2013,Antarctica,1
+15,6/4/2013,North America,1354
+15,6/4/2013,Europe,1947
+15,6/4/2013,South America,794
+15,6/4/2013,Africa,241
+15,6/4/2013,Asia,608
+15,6/4/2013,Australia,629
+15,6/4/2013,Antarctica,1
+16,6/5/2013,North America,1580
+16,6/5/2013,Europe,1852
+16,6/5/2013,South America,651
+16,6/5/2013,Africa,438
+16,6/5/2013,Asia,524
+16,6/5/2013,Australia,517
+16,6/5/2013,Antarctica,9
+17,6/6/2013,North America,1234
+17,6/6/2013,Europe,1722
+17,6/6/2013,South America,742
+17,6/6/2013,Africa,272
+17,6/6/2013,Asia,538
+17,6/6/2013,Australia,648
+17,6/6/2013,Antarctica,5
+18,6/7/2013,North America,1330
+18,6/7/2013,Europe,1595
+18,6/7/2013,South America,797
+18,6/7/2013,Africa,352
+18,6/7/2013,Asia,719
+18,6/7/2013,Australia,724
+18,6/7/2013,Antarctica,9
+19,6/8/2013,North America,1387
+19,6/8/2013,Europe,1821
+19,6/8/2013,South America,639
+19,6/8/2013,Africa,480
+19,6/8/2013,Asia,632
+19,6/8/2013,Australia,601
+19,6/8/2013,Antarctica,6
+20,6/9/2013,North America,1003
+20,6/9/2013,Europe,1993
+20,6/9/2013,South America,857
+20,6/9/2013,Africa,318
+20,6/9/2013,Asia,525
+20,6/9/2013,Australia,884
+20,6/9/2013,Antarctica,5
+21,6/10/2013,North America,1208
+21,6/10/2013,Europe,1955
+21,6/10/2013,South America,884
+21,6/10/2013,Africa,405
+21,6/10/2013,Asia,930
+21,6/10/2013,Australia,741
+21,6/10/2013,Antarctica,6
+22,6/11/2013,North America,1780
+22,6/11/2013,Europe,1826
+22,6/11/2013,South America,900
+22,6/11/2013,Africa,446
+22,6/11/2013,Asia,999
+22,6/11/2013,Australia,995
+22,6/11/2013,Antarctica,7
+23,6/12/2013,North America,1728
+23,6/12/2013,Europe,1935
+23,6/12/2013,South America,792
+23,6/12/2013,Africa,385
+23,6/12/2013,Asia,688
+23,6/12/2013,Australia,745
+23,6/12/2013,Antarctica,0
+24,6/13/2013,North America,1970
+24,6/13/2013,Europe,1894
+24,6/13/2013,South America,926
+24,6/13/2013,Africa,320
+24,6/13/2013,Asia,517
+24,6/13/2013,Australia,958
+24,6/13/2013,Antarctica,7
+25,6/14/2013,North America,1526
+25,6/14/2013,Europe,1871
+25,6/14/2013,South America,576
+25,6/14/2013,Africa,466
+25,6/14/2013,Asia,817
+25,6/14/2013,Australia,917
+25,6/14/2013,Antarctica,6
+26,6/15/2013,North America,1199
+26,6/15/2013,Europe,1707
+26,6/15/2013,South America,747
+26,6/15/2013,Africa,281
+26,6/15/2013,Asia,778
+26,6/15/2013,Australia,655
+26,6/15/2013,Antarctica,8
+27,6/16/2013,North America,1611
+27,6/16/2013,Europe,1644
+27,6/16/2013,South America,889
+27,6/16/2013,Africa,375
+27,6/16/2013,Asia,917
+27,6/16/2013,Australia,555
+27,6/16/2013,Antarctica,8
+28,6/17/2013,North America,1030
+28,6/17/2013,Europe,1637
+28,6/17/2013,South America,693
+28,6/17/2013,Africa,368
+28,6/17/2013,Asia,824
+28,6/17/2013,Australia,874
+28,6/17/2013,Antarctica,1
+29,6/18/2013,North America,1079
+29,6/18/2013,Europe,1579
+29,6/18/2013,South America,595
+29,6/18/2013,Africa,291
+29,6/18/2013,Asia,765
+29,6/18/2013,Australia,909
+29,6/18/2013,Antarctica,1
+30,6/19/2013,North America,1896
+30,6/19/2013,Europe,1801
+30,6/19/2013,South America,846
+30,6/19/2013,Africa,431
+30,6/19/2013,Asia,823
+30,6/19/2013,Australia,709
+30,6/19/2013,Antarctica,8
+31,6/20/2013,North America,1405
+31,6/20/2013,Europe,1534
+31,6/20/2013,South America,634
+31,6/20/2013,Africa,463
+31,6/20/2013,Asia,833
+31,6/20/2013,Australia,668
+31,6/20/2013,Antarctica,10
+32,6/21/2013,North America,1550
+32,6/21/2013,Europe,1723
+32,6/21/2013,South America,802
+32,6/21/2013,Africa,471
+32,6/21/2013,Asia,715
+32,6/21/2013,Australia,952
+32,6/21/2013,Antarctica,3
+33,6/22/2013,North America,1123
+33,6/22/2013,Europe,1593
+33,6/22/2013,South America,508
+33,6/22/2013,Africa,487
+33,6/22/2013,Asia,931
+33,6/22/2013,Australia,783
+33,6/22/2013,Antarctica,1
+34,6/23/2013,North America,1662
+34,6/23/2013,Europe,1932
+34,6/23/2013,South America,608
+34,6/23/2013,Africa,403
+34,6/23/2013,Asia,660
+34,6/23/2013,Australia,750
+34,6/23/2013,Antarctica,7
+35,6/24/2013,North America,1148
+35,6/24/2013,Europe,1965
+35,6/24/2013,South America,868
+35,6/24/2013,Africa,453
+35,6/24/2013,Asia,562
+35,6/24/2013,Australia,746
+35,6/24/2013,Antarctica,7
+36,6/25/2013,North America,1263
+36,6/25/2013,Europe,1570
+36,6/25/2013,South America,779
+36,6/25/2013,Africa,374
+36,6/25/2013,Asia,941
+36,6/25/2013,Australia,779
+36,6/25/2013,Antarctica,10
+37,6/26/2013,North America,1547
+37,6/26/2013,Europe,1928
+37,6/26/2013,South America,875
+37,6/26/2013,Africa,254
+37,6/26/2013,Asia,570
+37,6/26/2013,Australia,859
+37,6/26/2013,Antarctica,10
+38,6/27/2013,North America,1304
+38,6/27/2013,Europe,1830
+38,6/27/2013,South America,502
+38,6/27/2013,Africa,347
+38,6/27/2013,Asia,912
+38,6/27/2013,Australia,866
+38,6/27/2013,Antarctica,8
+39,6/28/2013,North America,1646
+39,6/28/2013,Europe,1615
+39,6/28/2013,South America,897
+39,6/28/2013,Africa,265
+39,6/28/2013,Asia,679
+39,6/28/2013,Australia,889
+39,6/28/2013,Antarctica,0
+40,6/29/2013,North America,1284
+40,6/29/2013,Europe,1557
+40,6/29/2013,South America,972
+40,6/29/2013,Africa,350
+40,6/29/2013,Asia,518
+40,6/29/2013,Australia,941
+40,6/29/2013,Antarctica,0
+41,6/30/2013,North America,1399
+41,6/30/2013,Europe,1758
+41,6/30/2013,South America,699
+41,6/30/2013,Africa,394
+41,6/30/2013,Asia,600
+41,6/30/2013,Australia,737
+41,6/30/2013,Antarctica,5
+42,7/1/2013,North America,1326
+42,7/1/2013,Europe,1596
+42,7/1/2013,South America,602
+42,7/1/2013,Africa,263
+42,7/1/2013,Asia,797
+42,7/1/2013,Australia,793
+42,7/1/2013,Antarctica,7
+43,7/2/2013,North America,1445
+43,7/2/2013,Europe,1932
+43,7/2/2013,South America,500
+43,7/2/2013,Africa,342
+43,7/2/2013,Asia,542
+43,7/2/2013,Australia,568
+43,7/2/2013,Antarctica,2
+44,7/3/2013,North America,1420
+44,7/3/2013,Europe,1618
+44,7/3/2013,South America,528
+44,7/3/2013,Africa,205
+44,7/3/2013,Asia,645
+44,7/3/2013,Australia,964
+44,7/3/2013,Antarctica,8
+45,7/4/2013,North America,1594
+45,7/4/2013,Europe,1971
+45,7/4/2013,South America,937
+45,7/4/2013,Africa,423
+45,7/4/2013,Asia,539
+45,7/4/2013,Australia,588
+45,7/4/2013,Antarctica,2
+46,7/5/2013,North America,1058
+46,7/5/2013,Europe,1789
+46,7/5/2013,South America,831
+46,7/5/2013,Africa,383
+46,7/5/2013,Asia,957
+46,7/5/2013,Australia,959
+46,7/5/2013,Antarctica,1
+47,7/6/2013,North America,1537
+47,7/6/2013,Europe,1636
+47,7/6/2013,South America,765
+47,7/6/2013,Africa,270
+47,7/6/2013,Asia,633
+47,7/6/2013,Australia,991
+47,7/6/2013,Antarctica,5
+48,7/7/2013,North America,1631
+48,7/7/2013,Europe,1867
+48,7/7/2013,South America,975
+48,7/7/2013,Africa,489
+48,7/7/2013,Asia,797
+48,7/7/2013,Australia,834
+48,7/7/2013,Antarctica,3
+49,7/8/2013,North America,1744
+49,7/8/2013,Europe,1660
+49,7/8/2013,South America,704
+49,7/8/2013,Africa,404
+49,7/8/2013,Asia,550
+49,7/8/2013,Australia,535
+49,7/8/2013,Antarctica,7
+50,7/9/2013,North America,1821
+50,7/9/2013,Europe,1699
+50,7/9/2013,South America,816
+50,7/9/2013,Africa,463
+50,7/9/2013,Asia,739
+50,7/9/2013,Australia,519
+50,7/9/2013,Antarctica,6
+51,7/10/2013,North America,1147
+51,7/10/2013,Europe,1962
+51,7/10/2013,South America,904
+51,7/10/2013,Africa,214
+51,7/10/2013,Asia,588
+51,7/10/2013,Australia,932
+51,7/10/2013,Antarctica,1
+52,7/11/2013,North America,1675
+52,7/11/2013,Europe,1927
+52,7/11/2013,South America,751
+52,7/11/2013,Africa,206
+52,7/11/2013,Asia,931
+52,7/11/2013,Australia,558
+52,7/11/2013,Antarctica,10
+53,7/12/2013,North America,1271
+53,7/12/2013,Europe,1706
+53,7/12/2013,South America,650
+53,7/12/2013,Africa,222
+53,7/12/2013,Asia,586
+53,7/12/2013,Australia,710
+53,7/12/2013,Antarctica,5
+54,7/13/2013,North America,1325
+54,7/13/2013,Europe,1730
+54,7/13/2013,South America,533
+54,7/13/2013,Africa,391
+54,7/13/2013,Asia,879
+54,7/13/2013,Australia,674
+54,7/13/2013,Antarctica,0
+55,7/14/2013,North America,1013
+55,7/14/2013,Europe,2000
+55,7/14/2013,South America,910
+55,7/14/2013,Africa,368
+55,7/14/2013,Asia,899
+55,7/14/2013,Australia,950
+55,7/14/2013,Antarctica,7
+56,7/15/2013,North America,1989
+56,7/15/2013,Europe,1562
+56,7/15/2013,South America,505
+56,7/15/2013,Africa,387
+56,7/15/2013,Asia,580
+56,7/15/2013,Australia,504
+56,7/15/2013,Antarctica,10
+57,7/16/2013,North America,1736
+57,7/16/2013,Europe,1882
+57,7/16/2013,South America,753
+57,7/16/2013,Africa,211
+57,7/16/2013,Asia,558
+57,7/16/2013,Australia,797
+57,7/16/2013,Antarctica,8
+58,7/17/2013,North America,1415
+58,7/17/2013,Europe,1843
+58,7/17/2013,South America,763
+58,7/17/2013,Africa,400
+58,7/17/2013,Asia,841
+58,7/17/2013,Australia,802
+58,7/17/2013,Antarctica,0
+59,7/18/2013,North America,1419
+59,7/18/2013,Europe,1761
+59,7/18/2013,South America,580
+59,7/18/2013,Africa,441
+59,7/18/2013,Asia,506
+59,7/18/2013,Australia,642
+59,7/18/2013,Antarctica,5
+60,7/19/2013,North America,1704
+60,7/19/2013,Europe,1589
+60,7/19/2013,South America,847
+60,7/19/2013,Africa,394
+60,7/19/2013,Asia,941
+60,7/19/2013,Australia,890
+60,7/19/2013,Antarctica,4
+61,7/20/2013,North America,1768
+61,7/20/2013,Europe,1829
+61,7/20/2013,South America,783
+61,7/20/2013,Africa,204
+61,7/20/2013,Asia,681
+61,7/20/2013,Australia,700
+61,7/20/2013,Antarctica,0
+62,7/21/2013,North America,1886
+62,7/21/2013,Europe,1845
+62,7/21/2013,South America,619
+62,7/21/2013,Africa,433
+62,7/21/2013,Asia,885
+62,7/21/2013,Australia,828
+62,7/21/2013,Antarctica,6
+63,7/22/2013,North America,1272
+63,7/22/2013,Europe,1899
+63,7/22/2013,South America,541
+63,7/22/2013,Africa,450
+63,7/22/2013,Asia,882
+63,7/22/2013,Australia,556
+63,7/22/2013,Antarctica,6
+64,7/23/2013,North America,1889
+64,7/23/2013,Europe,1949
+64,7/23/2013,South America,959
+64,7/23/2013,Africa,323
+64,7/23/2013,Asia,545
+64,7/23/2013,Australia,885
+64,7/23/2013,Antarctica,0
+65,7/24/2013,North America,1691
+65,7/24/2013,Europe,1701
+65,7/24/2013,South America,598
+65,7/24/2013,Africa,456
+65,7/24/2013,Asia,613
+65,7/24/2013,Australia,837
+65,7/24/2013,Antarctica,5
+66,7/25/2013,North America,1164
+66,7/25/2013,Europe,1712
+66,7/25/2013,South America,984
+66,7/25/2013,Africa,459
+66,7/25/2013,Asia,891
+66,7/25/2013,Australia,506
+66,7/25/2013,Antarctica,6
+67,7/26/2013,North America,1575
+67,7/26/2013,Europe,1627
+67,7/26/2013,South America,618
+67,7/26/2013,Africa,472
+67,7/26/2013,Asia,544
+67,7/26/2013,Australia,988
+67,7/26/2013,Antarctica,0
+68,7/27/2013,North America,1638
+68,7/27/2013,Europe,1664
+68,7/27/2013,South America,836
+68,7/27/2013,Africa,343
+68,7/27/2013,Asia,650
+68,7/27/2013,Australia,719
+68,7/27/2013,Antarctica,3
+69,7/28/2013,North America,1898
+69,7/28/2013,Europe,1758
+69,7/28/2013,South America,742
+69,7/28/2013,Africa,392
+69,7/28/2013,Asia,680
+69,7/28/2013,Australia,673
+69,7/28/2013,Antarctica,2
+70,7/29/2013,North America,1552
+70,7/29/2013,Europe,1833
+70,7/29/2013,South America,935
+70,7/29/2013,Africa,490
+70,7/29/2013,Asia,655
+70,7/29/2013,Australia,617
+70,7/29/2013,Antarctica,5
+71,7/30/2013,North America,1035
+71,7/30/2013,Europe,1883
+71,7/30/2013,South America,880
+71,7/30/2013,Africa,436
+71,7/30/2013,Asia,984
+71,7/30/2013,Australia,514
+71,7/30/2013,Antarctica,7
+72,7/31/2013,North America,1621
+72,7/31/2013,Europe,1872
+72,7/31/2013,South America,744
+72,7/31/2013,Africa,366
+72,7/31/2013,Asia,625
+72,7/31/2013,Australia,643
+72,7/31/2013,Antarctica,4
+73,8/1/2013,North America,1872
+73,8/1/2013,Europe,1846
+73,8/1/2013,South America,587
+73,8/1/2013,Africa,408
+73,8/1/2013,Asia,931
+73,8/1/2013,Australia,780
+73,8/1/2013,Antarctica,10
+74,8/2/2013,North America,1861
+74,8/2/2013,Europe,1883
+74,8/2/2013,South America,820
+74,8/2/2013,Africa,399
+74,8/2/2013,Asia,772
+74,8/2/2013,Australia,935
+74,8/2/2013,Antarctica,8
+75,8/3/2013,North America,1655
+75,8/3/2013,Europe,1755
+75,8/3/2013,South America,751
+75,8/3/2013,Africa,268
+75,8/3/2013,Asia,519
+75,8/3/2013,Australia,822
+75,8/3/2013,Antarctica,7
+76,8/4/2013,North America,1113
+76,8/4/2013,Europe,1682
+76,8/4/2013,South America,959
+76,8/4/2013,Africa,249
+76,8/4/2013,Asia,968
+76,8/4/2013,Australia,912
+76,8/4/2013,Antarctica,7
+77,8/5/2013,North America,1686
+77,8/5/2013,Europe,1552
+77,8/5/2013,South America,957
+77,8/5/2013,Africa,213
+77,8/5/2013,Asia,926
+77,8/5/2013,Australia,542
+77,8/5/2013,Antarctica,7
+78,8/6/2013,North America,1283
+78,8/6/2013,Europe,1909
+78,8/6/2013,South America,707
+78,8/6/2013,Africa,468
+78,8/6/2013,Asia,695
+78,8/6/2013,Australia,612
+78,8/6/2013,Antarctica,8
+79,8/7/2013,North America,1371
+79,8/7/2013,Europe,1998
+79,8/7/2013,South America,778
+79,8/7/2013,Africa,241
+79,8/7/2013,Asia,921
+79,8/7/2013,Australia,584
+79,8/7/2013,Antarctica,9
+80,8/8/2013,North America,1187
+80,8/8/2013,Europe,1647
+80,8/8/2013,South America,771
+80,8/8/2013,Africa,259
+80,8/8/2013,Asia,512
+80,8/8/2013,Australia,604
+80,8/8/2013,Antarctica,4
+81,8/9/2013,North America,1086
+81,8/9/2013,Europe,1726
+81,8/9/2013,South America,934
+81,8/9/2013,Africa,427
+81,8/9/2013,Asia,693
+81,8/9/2013,Australia,512
+81,8/9/2013,Antarctica,0
+82,8/10/2013,North America,1875
+82,8/10/2013,Europe,1755
+82,8/10/2013,South America,778
+82,8/10/2013,Africa,271
+82,8/10/2013,Asia,503
+82,8/10/2013,Australia,843
+82,8/10/2013,Antarctica,1
+83,8/11/2013,North America,1876
+83,8/11/2013,Europe,1529
+83,8/11/2013,South America,679
+83,8/11/2013,Africa,223
+83,8/11/2013,Asia,849
+83,8/11/2013,Australia,585
+83,8/11/2013,Antarctica,2
+84,8/12/2013,North America,1640
+84,8/12/2013,Europe,1841
+84,8/12/2013,South America,514
+84,8/12/2013,Africa,277
+84,8/12/2013,Asia,980
+84,8/12/2013,Australia,969
+84,8/12/2013,Antarctica,7
+85,8/13/2013,North America,1837
+85,8/13/2013,Europe,1589
+85,8/13/2013,South America,714
+85,8/13/2013,Africa,290
+85,8/13/2013,Asia,809
+85,8/13/2013,Australia,812
+85,8/13/2013,Antarctica,8
+86,8/14/2013,North America,1690
+86,8/14/2013,Europe,1633
+86,8/14/2013,South America,581
+86,8/14/2013,Africa,293
+86,8/14/2013,Asia,623
+86,8/14/2013,Australia,887
+86,8/14/2013,Antarctica,1
+87,8/15/2013,North America,1494
+87,8/15/2013,Europe,1832
+87,8/15/2013,South America,684
+87,8/15/2013,Africa,266
+87,8/15/2013,Asia,615
+87,8/15/2013,Australia,948
+87,8/15/2013,Antarctica,1
+88,8/16/2013,North America,1531
+88,8/16/2013,Europe,1644
+88,8/16/2013,South America,567
+88,8/16/2013,Africa,206
+88,8/16/2013,Asia,511
+88,8/16/2013,Australia,698
+88,8/16/2013,Antarctica,5
+89,8/17/2013,North America,1440
+89,8/17/2013,Europe,1540
+89,8/17/2013,South America,559
+89,8/17/2013,Africa,270
+89,8/17/2013,Asia,811
+89,8/17/2013,Australia,707
+89,8/17/2013,Antarctica,6

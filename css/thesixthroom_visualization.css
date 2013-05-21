@@ -1,0 +1,94 @@
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  position: relative;
+  /*width: 1400px;*/
+  background-color: #053749;
+}
+a:hover,a:active{
+  color:#CCC;
+  text-decoration: none;
+}
+button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+#streamgraph{
+  position: absolute;
+  bottom:-160px;
+  left: 0;
+}
+.node {
+  /*stroke: #fff;
+  stroke-width: 1.5px;*/
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+.visitor-label{
+	position:absolute;
+	color:#fff;
+}
+.timeline-labels, .visitor-label{
+  font-family: sans-serif;
+  font-size: 12px;
+  text-shadow: 2px 2px 4px rgba(50, 50, 50, 1);
+  display:none;
+  fill:#fff;
+  z-index: 1;
+}
+rect{
+	opacity:0.0;
+}
+.miLinea,.miLinea-h1{
+	display:none;
+	stroke: #ccc;
+	stroke-width:1px;
+	fill:none;
+}
+.stream{
+  stroke: #ccc;
+  fill: #042c3a;
+  stroke-width: 0.5px;
+}
+#about-button{
+  position: absolute;
+  top:0px;
+  left:15px;
+}
+#time-space{
+  position: absolute;
+  top:0px;
+  right:15px;
+}
+#time-space a:hover{
+  color:white;
+}
+#time-space a.selected{
+  color:white;
+  letter-spacing: 0.1em;
+}
+#about-modal{
+  color: #ddd;
+  background-color: #053749;
+  border: 1px solid #ccc;
+}
+.modal-footer{
+  background-color: #053749;
+  border-top:none;
+}
+.network-name-label{
+  display:none;
+  fill:#CCC;
+}
+#continent-visitors{
+  background:rgba(0,0,0,0.4);
+  border:1px solid #ccc;
+  padding:2px 5px;
+  
+  z-index: 101;
+}

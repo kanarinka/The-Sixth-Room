@@ -1,0 +1,20 @@
+MOVE FILES
+find ~/ -type f -print0 | xargs -0 mv -t /var/www/thesixthroom
+
+SSH- NOTE USERNAME IS UBUNTU
+ssh -v ubuntu@ec2-54-245-152-67.us-west-2.compute.amazonaws.com
+either do above command or edit .ssh/config file
+
+EC2 BS
+- create instance
+- create volume
+- create keypair
+- attach volume to instance
+- make sure security group allows TCP connections from port 80
+- create elastic IP
+- associate with instance
+- create RouteS3 w/ domain name & DNS servers
+- Within that, create "Record Sets" & add A record with elastic IP
+
+SEE: https://help.ubuntu.com/community/ApacheMySQLPHP for instructions on setting up LAMP stack
+

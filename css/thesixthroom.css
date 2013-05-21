@@ -1,0 +1,21 @@
+body {
+  margin:auto 1%;
+  background-color: #053749;
+
+}
+#main{
+  border: 20px solid #56aaff;
+  border-radius: 10px;
+  padding: 25px;
+  background-color: #fff;
+  margin-top: 20px;
+}
+input,select,textarea{
+  width:100%;
+  max-width: 200px;
+  min-width: 50px; 
+}
+td{
+  word-wrap:break-word;
+  word-break:break-all;
+}
