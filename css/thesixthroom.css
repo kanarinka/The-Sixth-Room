@@ -4,7 +4,7 @@ body {
 
 }
 #main{
-  border: 20px solid #56aaff;
+  border: 20px solid #49afcd;
   border-radius: 10px;
   padding: 25px;
   background-color: #fff;
@@ -18,4 +18,9 @@ input,select,textarea{
 td{
   word-wrap:break-word;
   word-break:break-all;
+}
+#guestbook-form-div .result{
+  font-size: 1.4em;
+  color: #faa732;
+  padding: 20px 0;
 }

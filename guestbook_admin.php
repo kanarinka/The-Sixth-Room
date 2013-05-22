@@ -43,7 +43,7 @@
             </thead>
             <tbody>
 <?php
-  $result = mysqli_query($con,"SELECT * FROM guestbook_visitor ORDER BY visit_date DESC");
+  $result = mysqli_query($con,"SELECT * FROM individual_visitors ORDER BY visit_date DESC");
   while($row = mysqli_fetch_array($result))
   {
 

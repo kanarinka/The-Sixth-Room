@@ -1,5 +1,5 @@
 <?php
-
+  $duplicate_error = false;
   $con=mysqli_connect("localhost","webapp","1l0ves1x","thesixthroom");
 
   if (mysqli_connect_errno($con))
@@ -8,14 +8,22 @@
   }
   
   if(isset($_POST['num_visitors'])){
+    $formattedDate = date('Y-m-d H:i:s', strtotime($_POST['visit_date']));
+    $halfDate = substr($formattedDate, 0, 10);
+    $duplicate = mysqli_query($con, "SELECT COUNT(*) from gallery_visitors WHERE visit_date LIKE '". $halfDate . "%'")  or die("SQL error");
+    $count = mysqli_fetch_array($duplicate)[0];
+    if ($count > 0){
+      $duplicate_error = true;
+    } else {
 
-    $sql="INSERT INTO anonymous_visitor (visit_date, num_visitors, method)
-          VALUES
-          ('" . date('Y-m-d H:i:s', strtotime($_POST['visit_date'])) . "' ,'$_POST[num_visitors]','GALLERY')";
+      $sql="INSERT INTO gallery_visitors (visit_date, num_visitors)
+            VALUES
+            ('" . $formattedDate . "' ,'$_POST[num_visitors]')";
 
-    if (!mysqli_query($con,$sql))
-    {
-      die('Error: ' . mysqli_error($con));
+      if (!mysqli_query($con,$sql))
+      {
+        die('Error: ' . mysqli_error($con));
+      }
     }
     
   }
@@ -44,6 +52,11 @@
 
           <h1>The Sixth Room</h1>
           <h3>Enter visitors to the U.S. pavilion</h3>
+          <?php
+            if ($duplicate_error){
+              echo '<h4 style="color:red">Sorry, that date already has visitor data.</h4>';
+            }
+          ?>
           <form style="margin-top:40px" method="post" action="addvisitors.php">
             <div class="control-group">
               <label class="control-label" for="inputEmail">Visitor Count:</label>
@@ -77,7 +90,7 @@
             </thead>
             <tbody>
 <?php
-  $result = mysqli_query($con,"SELECT * FROM anonymous_visitor");
+  $result = mysqli_query($con,"SELECT * FROM gallery_visitors ORDER BY visit_date DESC");
   while($row = mysqli_fetch_array($result))
   {
 

@@ -43,9 +43,15 @@
         <div id="main">
           <div class="row-fluid">
           <h1 style="font-family: 'Codystar', cursive;">The Sixth Room Guestbook</h1>
+          <p style="font-size:1.4em">Signing the guestbook includes your name and location as part of the Sixth Room network visualization.</p>
+          
           <?php 
-            include 'guestbook_form.php'; 
+            include 'includes/guestbook_form.php'; 
           ?>
+          
+          
+          <hr/>
+          <a href="guestbook.php" class="btn btn-info" id="guestbook-start-over-button">Start Over</a>
       </div>
     </div>
   </div>

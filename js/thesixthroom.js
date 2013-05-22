@@ -35,22 +35,21 @@ d3.csv(streamdataFilepath, function(error, data) {
 /*******************************************************
   Show mouseover info for Space view
 *******************************************************/
-function updateContinentDateInfo(d,i){
-   
-  var widthInterval = Math.round($(window).width()/d.values.length);
-  var whichDay = Math.round(d3.event.x/widthInterval);
-
+function updateContinentDateInfo(e, d,i){
+//+ $(e)[0].getBoundingClientRect().width)
+  //$('.day-' + i + ":last").offset()["top"]
+  //$(e).offset()["top"]
   d3.select('#continent-visitors')
-    .style("top", function(d){return parseInt(d3.event.y + 5) + "px"})
-    .style("left", function(d){return parseInt(d3.event.x + 5) + "px"})
-    .html(d.key + "<br/>" + d.values[whichDay].num_visitors + " visitors<br/>" +
-          d.values[whichDay].date.toString('ddd, MMM dd, yyyy'));
+    .style("top", function(d){return parseInt($(e).offset()["top"]) + "px"})
+    .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
+    .html(d.key + " - " + d.values[i].num_visitors + " visitors - " +
+          d.values[i].date.toString('ddd, MMM dd, yyyy'));
 }
-function showContinentDateInfo(d,i){
+function showContinentDateInfo(e, d,i){
   
   d3.select('#continent-visitors')
     .style("display","block");
-  updateContinentDateInfo(d,i);
+  updateContinentDateInfo(e, d,i);
 }
 function hideContinentDateInfo(d,i){
   d3.select('#continent-visitors').style("display","none");
@@ -95,6 +94,7 @@ function drawSpaceStreamgraph(){
     var yDomain = d3.max(allValues, function(d) { 
       return d.y0 + d.y; 
     });
+
     
     var width = $(window).width(),
         height = 200;
@@ -130,32 +130,45 @@ function drawSpaceStreamgraph(){
         .attr("width", width)
         .attr("height", height);
 
+    /* Draws underlying paths */
     window.streamgraphSVG.selectAll("path")
         .data(layers0)
         .enter().append("path")
         .attr("d", function(d) { return area(d.values); })
-        .attr("id", function(d) { 
-          return d.key;
-        })
         .attr("title", function(d) { 
           return "visitors from " + d.key;
         })
-        .attr("class", "stream")
-        .on("mouseover", function(d, i){
-          var elemId = this.id;
-          d3.select(this).style("fill",window.continentsToColors[elemId]);
-          hideNetworkNodes(function(d,i){ return d.continent == elemId;});
-          showContinentDateInfo(d, i);
-        })
-        .on("mouseout", function(d, i){
-          d3.select(this).style("fill","#042c3a");
-          showNetworkNodes();
-          hideContinentDateInfo(d,i);
-        })
-        .on("mousemove", function(d, i){         
-          updateContinentDateInfo(d, i);
-        });
+        .attr("class", function(d){ return "stream " + d.key.replace(" ", "-");})
 
+    /* Slightly hacky way to draw individually selectable days */
+    for (var k=0;k<samples-1;k++){
+      
+      window.streamgraphSVG.selectAll("path.day")
+          .data(layers0)
+          .enter().append("path")
+          .attr("d", function(d) { return area(new Array(d.values[k], d.values[k + 1])); })
+          .attr("class", function(d) { return "stream-days day-" + k})
+          .attr("id", function(d) { return "day-" + k})
+          .on("mouseover", function(d, i){
+            var idx = this.id.substring(4);
+            var continent = d.key; 
+            d3.selectAll('.day-' + parseInt(idx)).style("opacity","1.0").style("fill","rgba(255,255,255,0.5)");
+            d3.select(this).style("opacity","1.0").style("fill","red");
+            d3.select("." + d.key.replace(" ", "-")).style("fill",window.continentsToColors[d.key]);
+            hideNetworkNodes(function(d,i){ return d.continent == continent;});
+            showContinentDateInfo(this, d, idx);
+          })
+          .on("mouseout", function(d, i){
+            var idx = this.id.substring(4);
+            d3.selectAll('.day-' + parseInt(idx)).style("opacity","0.0");
+            d3.select(this).style("opacity","0.0");
+            d3.select("." + d.key.replace(" ", "-")).style("fill","#042c3a");
+            showNetworkNodes();
+            hideContinentDateInfo(d,idx);
+          });
+    }
+    
+    d3.selectAll('.day-' + parseInt(samples-2)).style("opacity","0.7").style("fill","rgba(255,255,255,0.5)");
 }
 
 /*******************************************************

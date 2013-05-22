@@ -1,4 +1,4 @@
-<select id="country" name="country">
+<select id="country_abbreviation" name="country_abbreviation">
 	<option value="">Select Country</option>
 	<option value="US">United States</option>
 	<option disabled="disabled">------------</option>
