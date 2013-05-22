@@ -64,12 +64,11 @@ rect{
   top:0px;
   right:15px;
 }
-#time-space a:hover{
-  color:white;
-}
-#time-space a.selected{
+
+#time-space a.selected,#time-space a:hover{
   color:white;
   letter-spacing: 0.1em;
+  text-decoration: underline;
 }
 #about-modal,#guestbook-modal{
   color: #ddd;
@@ -84,7 +83,7 @@ rect{
   display:none;
   fill:#CCC;
 }
-#continent-visitors{
+#visitor-info{
   display:none;
   background:rgba(255,255,255,0.7);
   border:1px solid #ccc;

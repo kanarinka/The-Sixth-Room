@@ -49,13 +49,9 @@
 <link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
 <script src="js/d3.js"></script>
 <body>
-  <div id="continent-visitors"></div>
+  <div id="visitor-info"></div>
   <div id="timeline-date" class="time-label"></div>
-  <div id="guestbook-visitors" class="time-label"><span id="guestbook-visitor-count"></span> Guestbook Visitors</div>
-  <div id="museum-visitors" class="time-label"><span id="museum-visitor-count"></span> US Pavilion Visitors</div>
-  <div id="online-visitors"class="time-label"><span id="online-visitor-count"></span> Online Visitors</div>
-  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a>
-    <a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a></h4>
+  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a></h4>
   <!-- Button to trigger About modal BALKASDJLKASJDLSKA -->
   <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a></h4>
    
@@ -115,7 +111,7 @@
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
-    console.log("HUH??")
+
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>
 
