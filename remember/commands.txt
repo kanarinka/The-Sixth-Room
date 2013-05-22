@@ -19,3 +19,6 @@ EC2 BS
 
 SEE: https://help.ubuntu.com/community/ApacheMySQLPHP for instructions on setting up LAMP stack
 
+For resetting git working dir
+git fetch --all
+git reset --hard origin/master

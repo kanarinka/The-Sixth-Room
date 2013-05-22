@@ -7,18 +7,6 @@
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
   
-  if(isset($_POST['name'])){
-
-    $sql="INSERT INTO guestbook_visitor (visit_date, name, city, state, country, comments)
-          VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country]','$_POST[comments]')";
-
-    if (!mysqli_query($con,$sql))
-    {
-      die('Error: ' . mysqli_error($con));
-    }
-    
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,10 +30,33 @@
       <div class="container-fluid">
         <div id="main">
           <div class="row-fluid">
-          <h1 style="font-family: 'Codystar', cursive;">The Sixth Room Guestbook</h1>
-          <?php 
-            include 'guestbook_form.php'; 
-          ?>
+          <h1 style="font-family: 'Codystar', cursive;">The Sixth Room Guestbook Admin</h1>
+          
+          <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <!--<th>Comments</th>-->
+              </tr>
+            </thead>
+            <tbody>
+<?php
+  $result = mysqli_query($con,"SELECT * FROM guestbook_visitor ORDER BY visit_date DESC");
+  while($row = mysqli_fetch_array($result))
+  {
+
+    ?>
+              <tr>
+                <td><?= $row['name'] ?></td>
+                <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
+                <td><?= $row['city'] ?>, <?= $row['state'] ?>, <?= $row['country'] ?></td>
+                <!--<td><?= $row['comments'] ?></td>-->
+              </tr>
+<?php } ?>
+            </tbody>
+          </table>
       </div>
     </div>
   </div>

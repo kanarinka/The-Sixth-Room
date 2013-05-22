@@ -10,9 +10,9 @@
   
   if(isset($_POST['name'])){
 
-    $sql="INSERT INTO guestbook_visitor (visit_date, name, city, country, comments)
+    $sql="INSERT INTO guestbook_visitor (visit_date, name, city, state, country, comments)
           VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[country]','$_POST[comments]')";
+          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country]','$_POST[comments]')";
 
     if (!mysqli_query($con,$sql))
     {
@@ -22,11 +22,12 @@
       $showForm = false;
       $showResult = true;
     }
-    
   }
 ?>
+
+
 <?php if ($showForm) { ?>
-  <form id="guestbook-form" class="form-horizontal" style="margin-top:40px" method="post" action="guestbook.php">
+  <form id="guestbook-form" class="form-horizontal" style="margin-top:40px">
     <div class="control-group">
       <label class="control-label" for="name">Name:</label>
       <div class="controls">
@@ -51,12 +52,29 @@
     </div>
     <div class="control-group">
       <div class="controls"> 
-        <button id="sign-the-guestbook-submit" type="submit" class="btn btn-warning">Sign the guestbook</button>
+        <button id="sign-the-guestbook-submit" type="button" class="btn btn-warning">Sign the guestbook</button>
       </div>
     </div>
     <!--<span class="help-block" style="margin-top:40px">Problems? Email <a href="mailto:dignazio@mit.edu">Catherine</a></span>-->
   </form>
 <?php } ?>
 <?php if ($showResult) { ?>
-  <div>Thanks for your info!</div>
+  <div>Thanks for your info. You have now entered the Sixth Room network.</div>
 <?php } ?>
+<div id="guestbook-form-div"></div>
+
+<script type="text/javascript">
+    $('#sign-the-guestbook-submit').click(function(){
+        
+        $.ajax({
+           url: 'guestbook_form.php' , 
+           type: 'POST',
+           data: $("#guestbook-form").serialize(),
+           success: function(result){     
+             $('#guestbook-form-div').html('<p>' + result + '</p>')      
+           }
+        });   
+        return false;     
+     });
+    
+</script>
