@@ -35,41 +35,17 @@
        
         <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
         <link href="css/thesixthroom.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
         
     </head>
     <body>
       <div class="container-fluid">
         <div id="main">
           <div class="row-fluid">
-          <h1>The Sixth Room Guestbook</h1>
-          <h3>Demo - will later be integrated into viz as modal</h3>
-          <form class="form-horizontal" style="margin-top:40px" method="post" action="guestbook.php">
-            <div class="control-group">
-              <label class="control-label" for="name">Name:</label>
-              <div class="controls">
-                <input type="text" id="name" name="name" placeholder="Your name">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="city">City/Country:</label>
-              <div class="controls">
-                 <input type="text" id="city" name="city" placeholder="City">
-                 <input type="text" id="country" name="country" placeholder="Country">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="comments">Your comments:</label>
-              <div class="controls">
-                 <textarea rows="3" name="comments"></textarea>
-              </div>
-            </div>
-            <div class="control-group">
-              <div class="controls"> 
-                <button type="submit" class="btn">Submit</button>
-              </div>
-            </div>
-            <span class="help-block" style="margin-top:40px">Problems? Email <a href="mailto:dignazio@mit.edu">Catherine</a></span>
-          </form>
+          <h1 style="font-family: 'Codystar', cursive;">The Sixth Room Guestbook</h1>
+          <?php 
+            include 'guestbook_form.php'; 
+          ?>
           <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
               <tr>
@@ -90,7 +66,7 @@
                 <td><?= $row['name'] ?></td>
                 <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
                 <td><?= $row['city'] ?>, <?= $row['country'] ?></td>
-                <!---<td><?= $row['comments'] ?></td>--->
+                <!--<td><?= $row['comments'] ?></td>-->
               </tr>
 <?php } ?>
             </tbody>

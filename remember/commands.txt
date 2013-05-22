@@ -2,7 +2,8 @@ MOVE FILES
 find ~/ -type f -print0 | xargs -0 mv -t /var/www/thesixthroom
 
 SSH- NOTE USERNAME IS UBUNTU
-ssh -v ubuntu@ec2-54-245-152-67.us-west-2.compute.amazonaws.com
+---- NO --- ssh -v ubuntu@ec2-54-245-152-67.us-west-2.compute.amazonaws.com
+---- YES --- ssh 54.214.22.65
 either do above command or edit .ssh/config file
 
 EC2 BS

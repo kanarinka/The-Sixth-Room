@@ -11,9 +11,9 @@ a:hover,a:active{
   text-decoration: none;
 }
 button {
-  position: absolute;
+  /*position: absolute;
   right: 10px;
-  top: 10px;
+  top: 10px;*/
 }
 #streamgraph{
   position: absolute;
@@ -29,11 +29,11 @@ button {
   stroke: #999;
   stroke-opacity: .6;
 }
-.visitor-label{
+.time-label{
 	position:absolute;
 	color:#fff;
 }
-.timeline-labels, .visitor-label{
+.timeline-labels, .time-label{
   font-family: sans-serif;
   font-size: 12px;
   text-shadow: 2px 2px 4px rgba(50, 50, 50, 1);
@@ -72,7 +72,7 @@ rect{
   color:white;
   letter-spacing: 0.1em;
 }
-#about-modal{
+#about-modal,#guestbook-modal{
   color: #ddd;
   background-color: #053749;
   border: 1px solid #ccc;
@@ -86,9 +86,15 @@ rect{
   fill:#CCC;
 }
 #continent-visitors{
+  display:none;
   background:rgba(0,0,0,0.4);
   border:1px solid #ccc;
   padding:2px 5px;
-  
-  z-index: 101;
+  position:absolute;
+  color:#fff;
+  font-family: sans-serif;
+  font-size: 12px;
+  text-shadow: 2px 2px 4px rgba(50, 50, 50, 1);
+  fill:#fff;
+  z-index: 1;
 }

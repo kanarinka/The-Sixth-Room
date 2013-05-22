@@ -265,11 +265,11 @@ function drawTimeStreamgraph(){
       $("#museum-visitors").css("bottom", -30).css("left", d.x + sectionWidth + 4);
       $("#online-visitors").css("bottom", -80).css("left", d.x + sectionWidth + 4);
 
-      d3.selectAll(".visitor-label").transition().duration(400).style("display", "block");
+      d3.selectAll(".time-label").transition().duration(400).style("display", "block");
       
     }
     var hideCounts = function(d, i){
-      d3.selectAll(".visitor-label").transition().duration(400).style("display", "none");
+      d3.selectAll(".time-label").transition().duration(400).style("display", "none");
       
     }
 
@@ -284,7 +284,6 @@ function drawTimeStreamgraph(){
       var rectDate = d.date.toString('M/d/yyyy');
       
       hideNetworkNodes(function(d,i){ 
-        console.log(d.date + " " +rectDate)
         return d.date == rectDate; 
       })
       
