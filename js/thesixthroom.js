@@ -55,12 +55,12 @@ function hideDateInfo(d,i){
   Show/Hide Network nodes
 *******************************************************/
 function showNetworkNodes(){
-  window.networkSVG.selectAll(".node").style("opacity",1.0);
+  window.networkSVG.selectAll(".node").style("fill-opacity",1.0).style("stroke-opacity",1.0);
 }
 function hideNetworkNodes(filterFunction){
   window.networkSVG.selectAll("text").style("display", "none");
-  window.networkSVG.selectAll(".node").style("opacity",0.0);
-  window.networkSVG.selectAll(".node").filter(filterFunction).style("opacity", 1.0);
+  window.networkSVG.selectAll(".node").style("fill-opacity",0.0).style("stroke-opacity",0.0);
+  window.networkSVG.selectAll(".node").filter(filterFunction).style("fill-opacity",1.0).style("stroke-opacity",1.0);
 }
 
 /*******************************************************
@@ -72,7 +72,7 @@ function drawStreamgraph(){
            .key(function(d){ return d.venue});
     var n = window.data.length, // number of layers, online, guestbook & museum
        
-    stack = d3.layout.stack().offset("wiggle")
+    stack = d3.layout.stack().offset("zero")
           .values(function(d) { return d.values; });
 
     //group data by venue (for streamgraph)
@@ -95,7 +95,7 @@ function drawStreamgraph(){
     });
 
     var width = $(window).width(),
-        height = 200;
+        height = 175;
 
     var x = d3.scale.linear()
       .domain([0, samples - 1])
@@ -146,8 +146,8 @@ function drawStreamgraph(){
           .on("mouseover", function(d, i){
             var idx = this.id.substring(4);
             
-            d3.selectAll('.day-' + parseInt(idx)).style("opacity","1.0").style("fill","rgba(255,255,255,0.5)");
-            d3.select(this).style("opacity","1.0").style("fill","red");
+            d3.selectAll('.day-' + parseInt(idx)).style("fill-opacity","1.0").style("stroke-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
+            d3.select(this).style("fill-opacity","1.0").style("stroke-opacity","1.0").style("fill","red");
             d3.select("." + d.key.replace(" ", "-")).style("fill",function(){ return model == "space" ? window.continentsToColors[d.key] : window.venuesToColors[d.key]});
 
             var theKey = d.key;
@@ -158,15 +158,15 @@ function drawStreamgraph(){
           })
           .on("mouseout", function(d, i){
             var idx = this.id.substring(4);
-            d3.selectAll('.day-' + parseInt(idx)).style("opacity","0.0");
-            d3.select(this).style("opacity","0.0");
+            d3.selectAll('.day-' + parseInt(idx)).style("fill-opacity","0.0").style("stroke-opacity","0.0");
+            d3.select(this).style("fill-opacity","0.0").style("stroke-opacity","0.0");
             d3.select("." + d.key.replace(" ", "-")).style("fill","#042c3a");
             showNetworkNodes();
             hideDateInfo(d,idx);
           });
     }
     
-    d3.selectAll('.day-' + parseInt(samples-2)).style("opacity","0.7").style("fill","rgba(255,255,255,0.5)");
+    d3.selectAll('.day-' + parseInt(samples-2)).style("fill-opacity","0.7").style("fill","rgba(255,255,255,0.5)");
 }
 
 
@@ -224,6 +224,17 @@ function drawForcedGraph(){
             d3.select("#name-label-" + d.idx).style("opacity","0.0").style("display","block").transition().duration(700).style("opacity","1.0").transition().delay(10000).duration(700).style("opacity", "0.0").style("display", "none");
       
           })
+          .on("mouseover",function(d,i){
+            d3.select(this).transition().duration().attr("r", function(d){return d.is_guestbook_signer ? 20 : 10;})
+              .style("stroke", "#CCC")
+              .style("stroke-width", 2);
+            d3.select("#name-label-" + d.idx).style("opacity","0.0").style("display","block").transition().duration().style("opacity","1.0");
+          })
+          .on("mouseout",function(d,i){
+            d3.select(this).transition().duration(500).style("stroke-width", 0).attr("r", function(d) { return d.is_guestbook_signer ? 10 : 5;});
+            d3.select("#name-label-" + d.idx).transition().duration(700).style("opacity", "0.0").style("display", "none");
+          })
+
           .call(force.drag);
 
       node.append("title")
