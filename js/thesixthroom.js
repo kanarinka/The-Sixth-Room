@@ -217,7 +217,9 @@ function drawForcedGraph(){
           .data(graph.nodes)
         .enter().append("circle")
           .attr("class", "node")//function(d) { return "node " + "node" + d.date.toString('MMddyyyy'); })
-          .attr("r", function(d) { return d.is_guestbook_signer ? 10 : 5;})
+          .attr("r", function(d) { 
+            return d.is_guestbook_signer ? 10 : 5;
+          })
           .style("fill", function(d) { 
             return window.continentsToColors[d.continent];
             //return color(d.group); 
