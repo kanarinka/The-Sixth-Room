@@ -1,6 +1,12 @@
 /*******************************************************
   MAIN FUNCTION 
 *******************************************************/
+var int=self.setInterval(function(){personEntered()},30000);
+function personEntered()
+{
+  $('#person-entered').animate({top:'-1px'}, 500).delay(4000).animate({top:'-100px'}, 500);
+}
+
 if (model == "space"){
   $("#time-button").removeClass("selected");
   $("#space-button").addClass("selected");
@@ -146,7 +152,7 @@ function drawStreamgraph(){
           .on("mouseover", function(d, i){
             var idx = this.id.substring(4);
             
-            d3.selectAll('.day-' + parseInt(idx)).style("fill-opacity","1.0").style("stroke-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
+            d3.selectAll('.day-' + parseInt(idx)).style("fill-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
             d3.select(this).style("fill-opacity","1.0").style("stroke-opacity","1.0").style("fill","red");
             d3.select("." + d.key.replace(" ", "-")).style("fill",function(){ return model == "space" ? window.continentsToColors[d.key] : window.venuesToColors[d.key]});
 

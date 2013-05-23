@@ -51,8 +51,15 @@
 <body>
   <div id="visitor-info"></div>
   <div id="timeline-date" class="time-label"></div>
+  
+  <!-- Main Nav  -->
   <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a></h4>
-  <!-- Button to trigger About modal BALKASDJLKASJDLSKA -->
+  
+  <div style="position: absolute; left: 50%;">
+    <p id="person-entered">Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
+  </div>
+
+  <!-- Button to trigger About modal  -->
   <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a></h4>
    
   <!-- About Modal -->
@@ -111,6 +118,7 @@
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
+    
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>
