@@ -1,25 +1,4 @@
-<?php
 
-  $con=mysqli_connect("localhost","webapp","1l0ves1x","thesixthroom");
-
-  if (mysqli_connect_errno($con))
-  {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
-  
-  if(isset($_POST['name'])){
-
-    $sql="INSERT INTO guestbook_visitor (visit_date, name, city, state, country, comments)
-          VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country]','$_POST[comments]')";
-
-    if (!mysqli_query($con,$sql))
-    {
-      die('Error: ' . mysqli_error($con));
-    }
-    
-  }
-?>
 <!DOCTYPE html>
 <html>
     <head>

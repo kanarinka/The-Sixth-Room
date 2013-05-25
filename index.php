@@ -49,18 +49,21 @@
 <link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
 <script src="js/d3.js"></script>
 <body>
+
   <div id="visitor-info"></div>
   <div id="timeline-date" class="time-label"></div>
   
   <!-- Main Nav  -->
-  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a></h4>
+
+  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> <span style="color:#0088cc">|</span> <a href="#whereami-modal" role="button" data-toggle="modal">where am i?</a></h4>
   
   <div style="position: absolute; left: 50%;">
     <p id="person-entered">Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
   </div>
 
   <!-- Button to trigger About modal  -->
-  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a></h4>
+  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a> 
+    </h4>
    
   <!-- About Modal -->
   <div id="about-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -69,7 +72,15 @@
       <h3 style="font-family: 'Codystar', cursive;">The Sixth Room</h3>
     </div>
     <div class="modal-body">
-      <p>Bloomberg is supporting "The Sixth Room," a digital tool that visually represents the network of virtual and physical audiences visiting <a href="http://www.sarahszevenice2013.com">Sarah Sze’s Triple Point</a>, both in Venice at the United States Pavilion and online over the course of la Biennale di Venezia.  Constantly updated, "The Sixth Room" data represents an ever-changing visual record of public engagement with Triple Point. Coordinated by Nell Breyer, previously a research affiliate at MIT’s Center for Advanced Visual Studies and designed by <a href="http://www.kanarinka.com">Catherine D’Ignazio</a> from MIT's Media Lab, "The Sixth Room" is accessible online and on mobile devices.</p>
+      <p>Bloomberg is supporting "The Sixth Room," a digital tool that visually represents the network of virtual and physical audiences visiting <a href="http://www.sarahszevenice2013.com">Sarah Sze’s Triple Point</a>, both in Venice at the United States Pavilion and online over the course of la Biennale di Venezia.  Constantly updated, "The Sixth Room" data represents an ever-changing visual record of public engagement with Triple Point. Coordinated by <a href="#">Nell Breyer</a>, previously a research affiliate at MIT’s Center for Advanced Visual Studies and designed by <a href="#">Catherine D’Ignazio</a> from MIT's Media Lab, "The Sixth Room" is accessible online and on mobile devices.</p>
+      <p>Related sites:</p>
+      <ul>
+        <li><a href="#">Virtual Tour of Sarah Sze Triple Point</a></li>
+        <li><a href="http://www.sarahszevenice2013.com">Sarah Sze Triple Point Official Website</a></li>
+      </ul>
+      <p>This project is made possible by Bloomberg.</p>
+
+      <p><em>Thanks and acknowledgements:</em> Sarah Sze Studio, The Bronx Museum of the Arts, U.S. Pavilion Office, The Peggy Guggenheim Collection, Exhibit-E, MIT Media Lab.</p>
     </div>
     <div class="modal-footer">
      
@@ -82,7 +93,7 @@
   <!-- Guestbook Modal -->
   <div id="guestbook-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
-     
+      <button type="button" class="pull-right btn btn-info" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 style="font-family: 'Codystar', cursive;">The Sixth Room Guestbook</h3>
     </div>
     <div class="modal-body">
@@ -118,7 +129,7 @@
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
-    
+
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>

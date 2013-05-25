@@ -46,12 +46,15 @@ function showDateInfo(e,d,i){
   //+ $(e)[0].getBoundingClientRect().width)
   //$('.day-' + i + ":last").offset()["top"]
   //$(e).offset()["top"]
+  var name = d.key;
+  if (model == "time")
+      name = window.venuesProperNames[d.key];
   d3.select('#visitor-info')
     .style("display","block");
   d3.select('#visitor-info')
     .style("top", function(d){return parseInt($(e).offset()["top"]) + "px"})
     .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
-    .html(d.key + " - " + d.values[i].num_visitors + " visitors - " +
+    .html(name + " - " + d.values[i].num_visitors + " visitors - " +
           d.values[i].date.toString('ddd, MMM dd, yyyy'));
 }
 function hideDateInfo(d,i){

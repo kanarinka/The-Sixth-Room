@@ -22,3 +22,10 @@ SEE: https://help.ubuntu.com/community/ApacheMySQLPHP for instructions on settin
 For resetting git working dir
 git fetch --all
 git reset --hard origin/master
+
+PHP5 with Google Analytics needs curl installed
+sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+
+Cronjobs:
+Store Google Analytics data - Runs at 1AM everyday
+*  1  *  *  *  php /home/ubuntu/thesixthroom/The-Sixth-Room/googleanalytics/addGAVisitors.php > /home/ubuntu/thesixthroom/The-Sixth-Room/googleanalytics/analytics.log 2>&1

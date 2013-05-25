@@ -1,7 +1,9 @@
 <?php
-  $duplicate_error = false;
-  $con=mysqli_connect("localhost","webapp","1l0ves1x","thesixthroom");
+  include 'includes/config.php'; 
+  
+  $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
+  $duplicate_error = false;
   if (mysqli_connect_errno($con))
   {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();

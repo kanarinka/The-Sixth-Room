@@ -1,6 +1,9 @@
 <?php
 
-  $con=mysqli_connect("localhost","webapp","1l0ves1x","thesixthroom");
+  include 'includes/config.php'; 
+  
+  $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
+
 
   if (mysqli_connect_errno($con))
   {

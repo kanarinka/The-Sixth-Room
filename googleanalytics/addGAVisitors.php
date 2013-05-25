@@ -65,8 +65,8 @@ function runMainDemo(&$analytics) {
       // Step 4. Store the results.
       storeResults($results);
 
-      
-      printResults($results);
+      //For debugging - will print out whole Google object
+      //printResults($results);
     }
 
   } catch (apiServiceException $e) {
@@ -79,9 +79,10 @@ function runMainDemo(&$analytics) {
 }
 
 function getResults(&$analytics, $profileId) {
+  $yesterday = date('Y-m-d', strtotime('yesterday'));
 	$ids = 'ga:' . $profileId;
-	$start_date = "2013-05-23";
-	$end_date = "2013-05-23";
+	$start_date = $yesterday;
+	$end_date = $yesterday;
 	$metrics = "ga:visits";
 	$dimensions = "ga:city,ga:region,ga:country,ga:continent";
 	$optParams = array('dimensions' => $dimensions);
@@ -98,6 +99,9 @@ function storeResults(&$results){
   global $continent_abbreviations_to_continents;
   global $con;
 
+  echo "-------------------------------------------------------<br/>\n\n";
+  echo date("l F d, Y", strtotime('yesterday')) . "<br/>\n\n"; 
+
   foreach ($results->rows as $row){
 
     //if field contains "not set" then make it blank
@@ -106,11 +110,16 @@ function storeResults(&$results){
     $country = strpos($row[2] , "not set") ? "" : $row[2];
     $continent = strpos($row[3] , "not set") ? "" : $row[3];
     $num_visitors = $row[4];
+
+    //if we can find the country in our list then get the exact country code
+    // & continent from our list (more standard than Google)
+    //if we can't find it then just accept what Google gives
     $matches = preg_grep_keys ('/'.$country.'/i', $countries_to_country_codes);
-    
     $country_abbreviation = $matches[$country];
-    $continent_abbreviation = $countries_to_continent_abbreviations[$country_abbreviation];
-    $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
+    if (strlen($country_abbreviation) == 2){
+      $continent_abbreviation = $countries_to_continent_abbreviations[$country_abbreviation];
+      $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
+    }
     
     $i =0;
     while($i < $num_visitors){
@@ -122,7 +131,7 @@ function storeResults(&$results){
       {
         die('Error: ' . mysqli_error($con));
       } 
-      echo "stored one";
+      echo "Stored " . $city . " " . $state . " " . $country . " " . $continent . "<br/>\n";
       $i++;
     }
      

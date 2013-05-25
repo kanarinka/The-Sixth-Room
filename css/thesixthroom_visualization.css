@@ -11,8 +11,12 @@ body {
   height:100%;
 
 }
+a{
+  text-decoration: underline;
+
+}
 a:hover,a:active{
-  color:#CCC;
+  color:#fff;
   text-decoration: none;
 }
 #streamgraph{
@@ -76,7 +80,7 @@ rect{
 }
 #time-space a.selected,#time-space a:hover{
   color:white;
-  
+  text-decoration: none;
 }
 #time-space a.selected{
   text-decoration: none;

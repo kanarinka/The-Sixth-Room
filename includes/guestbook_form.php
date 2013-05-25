@@ -1,8 +1,9 @@
 <?php
-  include 'continents.php'; 
+  include 'continents.php';
+  include 'config.php'; 
   $showForm = true;
   $showResult = false;
-  $con=mysqli_connect("localhost","webapp","1l0ves1x","thesixthroom");
+  $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
   if (mysqli_connect_errno($con))
   {
@@ -13,9 +14,9 @@
 
     $continent_abbreviation = $countries_to_continent_abbreviations[$_POST['country_abbreviation']];
     $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
-    $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, comments, venue)
+    $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue)
           VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent','$_POST[comments]', 'GUESTBOOK')";
+          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK')";
 
     if (!mysqli_query($con,$sql))
     {
@@ -49,12 +50,12 @@
           <span class="help-inline" style="display:none">Please fill out city, state and country fields.</span>
       </div>
     </div>
-    <div class="control-group">
+    <!--<div class="control-group">
       <label class="control-label" for="comments">Your comments:</label>
       <div class="controls">
          <textarea rows="3" name="comments"></textarea>
       </div>
-    </div>
+    </div>-->
     <div class="control-group">
       <div class="controls"> 
         <button id="sign-the-guestbook-submit" type="button" class="btn btn-warning">Sign the guestbook</button>
@@ -88,7 +89,7 @@
         }
         if(!errors){
           $.ajax({
-             url: 'guestbook_form.php' , 
+             url: 'http://thesixthroom.org/includes/guestbook_form.php' , 
              type: 'POST',
              data: $("#guestbook-form").serialize()+ "&country=" + $('#country_abbreviation').find(":selected").text(),
              success: function(result){     
