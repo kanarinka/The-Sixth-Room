@@ -14,9 +14,11 @@
 
     $continent_abbreviation = $countries_to_continent_abbreviations[$_POST['country_abbreviation']];
     $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
-    $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue)
+    $visited_us_pavilion = $_POST['visited_us_pavilion'] == "1";
+    $visited_online_tour = $_POST['visited_us_pavilion'] == "1";
+    $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue, visited_us_pavilion, visited_online_tour)
           VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK')";
+          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK','$visited_us_pavilion','$visited_online_tour')";
 
     if (!mysqli_query($con,$sql))
     {
@@ -48,6 +50,17 @@
             include 'countries.php'; 
           ?>
           <span class="help-inline" style="display:none">Please fill out city, state and country fields.</span>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox" name="visited_us_pavilion" value="1"> Did you visit the US Pavilion?
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="visited_online_tour" value="1"> Did you visit the <a target="_blank" href="http://www.sarahszevenice2013.com/the-exhibition/virtual-tour">Online Tour</a>?
+        </label>
+        
       </div>
     </div>
     <!--<div class="control-group">
