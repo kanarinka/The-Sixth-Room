@@ -68,11 +68,13 @@ rect{
   position: absolute;
   top:0px;
   left:15px;
+  color:#0088cc;
 }
 #time-space{
   position: absolute;
   top:0px;
   right:15px;
+  color:#0088cc;
 }
 #time-space a{
   text-decoration: underline;

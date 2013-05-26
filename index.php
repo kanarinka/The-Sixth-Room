@@ -55,14 +55,16 @@
   
   <!-- Main Nav  -->
 
-  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> <span style="color:#0088cc">|</span> <a href="#whereami-modal" role="button" data-toggle="modal">search</a></h4>
+  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a> | 
+    <a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> | 
+    <a href="#" role="button" id="world-button" data-toggle="modal">world</a></h4>
   
   <div style="position: absolute; left: 50%;">
     <p id="person-entered">Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
   </div>
 
   <!-- Button to trigger About modal  -->
-  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a> 
+  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a> | <a href="#whereami-modal" role="button" id="search-button" data-toggle="modal">search</a> 
     </h4>
    
   <!-- About Modal -->
@@ -129,6 +131,7 @@
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
+    $('#world-button, #search-button').click(function(){alert('coming soon')});
 
 
 </script>
