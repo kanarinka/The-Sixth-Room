@@ -55,7 +55,7 @@
   
   <!-- Main Nav  -->
 
-  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> <span style="color:#0088cc">|</span> <a href="#whereami-modal" role="button" data-toggle="modal">where am i?</a></h4>
+  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a><a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> <span style="color:#0088cc">|</span> <a href="#whereami-modal" role="button" data-toggle="modal">search</a></h4>
   
   <div style="position: absolute; left: 50%;">
     <p id="person-entered">Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
@@ -75,7 +75,7 @@
       <p>Bloomberg is supporting "The Sixth Room," a digital tool that visually represents the network of virtual and physical audiences visiting <a href="http://www.sarahszevenice2013.com">Sarah Sze’s Triple Point</a>, both in Venice at the United States Pavilion and online over the course of la Biennale di Venezia.  Constantly updated, "The Sixth Room" data represents an ever-changing visual record of public engagement with Triple Point. Coordinated by <a href="#">Nell Breyer</a>, previously a research affiliate at MIT’s Center for Advanced Visual Studies and designed by <a href="#">Catherine D’Ignazio</a> from MIT's Media Lab, "The Sixth Room" is accessible online and on mobile devices.</p>
       <p>Related sites:</p>
       <ul>
-        <li><a href="#">Virtual Tour of Sarah Sze Triple Point</a></li>
+        <li><a href="http://www.sarahszevenice2013.com/the-exhibition/virtual-tour">Virtual Tour of Sarah Sze Triple Point</a></li>
         <li><a href="http://www.sarahszevenice2013.com">Sarah Sze Triple Point Official Website</a></li>
       </ul>
       <p>This project is made possible by Bloomberg.</p>

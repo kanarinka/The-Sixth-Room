@@ -12,19 +12,21 @@
   if(isset($_POST['num_visitors'])){
     $formattedDate = date('Y-m-d H:i:s', strtotime($_POST['visit_date']));
     $halfDate = substr($formattedDate, 0, 10);
-    $duplicate = mysqli_query($con, "SELECT COUNT(*) from gallery_visitors WHERE visit_date LIKE '". $halfDate . "%'")  or die("SQL error");
+    $duplicate = mysqli_query($con, "SELECT COUNT(*) from individual_visitors WHERE venue = 'MUSEUM' AND visit_date LIKE '". $halfDate . "%'")  or die("SQL error");
     $count = mysqli_fetch_array($duplicate)[0];
     if ($count > 0){
       $duplicate_error = true;
     } else {
+      $num_visitors = $_POST['num_visitors'];
+      for ($i=0;$i<$num_visitors;$i++){
+        $sql="INSERT INTO individual_visitors (visit_date, venue)
+              VALUES
+              ('" . $formattedDate . "' ,'MUSEUM')";
 
-      $sql="INSERT INTO gallery_visitors (visit_date, num_visitors)
-            VALUES
-            ('" . $formattedDate . "' ,'$_POST[num_visitors]')";
-
-      if (!mysqli_query($con,$sql))
-      {
-        die('Error: ' . mysqli_error($con));
+        if (!mysqli_query($con,$sql))
+        {
+          die('Error: ' . mysqli_error($con));
+        }
       }
     }
     
@@ -87,12 +89,12 @@
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Gallery Visitors</th>
+                <th>US Pavilion Visitors</th>
               </tr>
             </thead>
             <tbody>
 <?php
-  $result = mysqli_query($con,"SELECT * FROM gallery_visitors ORDER BY visit_date DESC");
+  $result = mysqli_query($con,"SELECT COUNT(*) AS num_visitors, visit_date, venue FROM individual_visitors WHERE venue = 'MUSEUM' GROUP BY visit_date ORDER BY visit_date DESC ");
   while($row = mysqli_fetch_array($result))
   {
 
