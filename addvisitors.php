@@ -1,6 +1,6 @@
 <?php
   include 'includes/config.php'; 
-  
+  date_default_timezone_set('EST');
   $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
   $duplicate_error = false;
