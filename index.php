@@ -33,9 +33,13 @@
   else 
     $model = "time";
 
-  $streamdataFilepath = "data/streamdata_" . $model . "_" . $days . ".csv";
-  $networkdataFilepath = "data/networkdata_" . $model . "_" . $days . ".json";
-
+  //$streamdataFilepath = "data/streamdata_" . $model . "_" . $days . ".csv";
+  //$networkdataFilepath = "data/networkdata_" . $model . "_" . $days . ".json";
+  date_default_timezone_set('EST');
+  $yesterday = date("Y_m_d", time() - 60 * 60 * 24);
+  $current_network_date = $yesterday;
+  $streamdataFilepath = "data/streamgraph_" . $model . ".csv";
+  $networkdataFilepath = "data/networkdata_" . $model . "_" . $current_network_date . ".json";
 
 ?>
 <!DOCTYPE html>
@@ -51,6 +55,7 @@
 <body>
 
   <div id="visitor-info"></div>
+  <div id="date-info"></div>
   <div id="timeline-date" class="time-label"></div>
   
   <!-- Main Nav  -->
@@ -59,8 +64,8 @@
     <a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> | 
     <a href="#" role="button" id="world-button" data-toggle="modal">world</a></h4>
   
-  <div style="position: absolute; left: 50%;">
-    <p id="person-entered">Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
+  <div id="person-entered" style="position: absolute; left: 50%;">
+    <p>Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
   </div>
 
   <!-- Button to trigger About modal  -->
@@ -113,16 +118,48 @@
   </div>
 </body>
 <script type="text/javascript">
-    window.onresize = function(){window.location.reload();}
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+</script>
+<script type="text/javascript">
+    if (!isMobile.any())
+      window.onresize = function(){window.location.reload();}
 
     var streamdataFilepath = "<?= $streamdataFilepath ?>";
     var networkdataFilepath = "<?= $networkdataFilepath ?>";
+    window.currentNetworkDate = "<?= $current_network_date ?>";
+
     var showGuestbook = "<?= $showGuestbook ?>";
+    var lastTime = "<?= time() ?>";
+
     var model = "<?= $model ?>";
 
     if (showGuestbook){
       $('#guestbook-modal').modal();
     }
+    $('#guestbook-modal').on('hidden', function () {
+      $('#guestbook-result').hide();
+      $('#guestbook-form').show();
+      $('#guestbook-form').find("input[type=text], textarea, select").val("")
+    });
     $('#sign-the-guestbook-button').click(function(){
         $('#about-modal').modal('hide');
         $('#guestbook-modal').modal();
@@ -132,7 +169,6 @@
         $('#about-modal').modal();
     });
     $('#world-button, #search-button').click(function(){alert('coming soon')});
-
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>

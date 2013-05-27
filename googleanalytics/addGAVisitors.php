@@ -83,8 +83,11 @@ function getResults(&$analytics, $profileId) {
 	$ids = 'ga:' . $profileId;
 	$start_date = $yesterday;
 	$end_date = $yesterday;
+  /*$start_date = "2013-05-26";
+  $end_date = "2013-05-26";
+  */
 	$metrics = "ga:visits";
-	$dimensions = "ga:city,ga:region,ga:country,ga:continent";
+	$dimensions = "ga:city,ga:region,ga:country,ga:continent,ga:hour";
 	$optParams = array('dimensions' => $dimensions);
 	return $analytics->data_ga->get($ids,$start_date,$end_date,$metrics,$optParams);
 }
@@ -109,7 +112,11 @@ function storeResults(&$results){
     $state = strpos($row[1] , "not set") ? "" : $row[1];
     $country = strpos($row[2] , "not set") ? "" : $row[2];
     $continent = strpos($row[3] , "not set") ? "" : $row[3];
-    $num_visitors = $row[4];
+    $hour = strpos($row[4] , "not set") ? "" : $row[4];
+    $num_visitors = $row[5];
+
+    $visit_date = new DateTime(date('Y-m-d H:i:s', strtotime('yesterday')));
+    $visit_date->setTime($hour,0,0);
 
     //if we can find the country in our list then get the exact country code
     // & continent from our list (more standard than Google)
@@ -125,13 +132,13 @@ function storeResults(&$results){
     while($i < $num_visitors){
       $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue)
           VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('yesterday')) . "' ,'" . mysqli_real_escape_string($con, 'anonymous') . "','$city','$state','$country_abbreviation','$country','$continent_abbreviation','$continent', 'ONLINE')";
+          ('" . date('Y-m-d H:i:s', $visit_date->getTimestamp()) . "' ,'" . mysqli_real_escape_string($con, 'anonymous') . "','$city','$state','$country_abbreviation','$country','$continent_abbreviation','$continent', 'ONLINE')";
 
       if (!mysqli_query($con,$sql))
       {
         die('Error: ' . mysqli_error($con));
       } 
-      echo "Stored " . $city . " " . $state . " " . $country . " " . $continent . "<br/>\n";
+      echo "Stored " . $city . " " . $state . " " . $country . " " . $continent . " " . $hour . "<br/>\n";
       $i++;
     }
      

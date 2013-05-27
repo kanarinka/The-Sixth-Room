@@ -38,13 +38,15 @@ def makeStreamgraphData(model, filename, sql, venueList):
                 venue = visitor_count[2].lower() if model == 'time' else visitor_count[2]
 
                 visit_date = visit_date.strftime('%m/%d/%Y')
+                
                 if (previous_date != None and visit_date != previous_date):
                     if (len(venues_not_covered) != 0):
                         for emptyVenue in venues_not_covered:
                             mywriter.writerow([index, previous_date, emptyVenue, 0])
                     index+=1
                     venues_not_covered = list(venueList)
-            
+                
+               
                 venues_not_covered.remove(venue)
                         
                 mywriter.writerow([index, visit_date, venue, num_visitors])
@@ -80,9 +82,10 @@ def makeNodes(date, model):
         
         conn = MySQLdb.connect(host = "localhost",user = "webapp",passwd = "1l0ves1x",db = "thesixthroom")
         cursor = conn.cursor()
-
+        sql = 'SELECT * FROM individual_visitors WHERE (venue = \'ONLINE\' and continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') or (venue = \'GUESTBOOK\') ORDER BY visit_date'
+        
         #get all individual dates
-        cursor.execute('SELECT * FROM individual_visitors WHERE venue != \'MUSEUM\' and continent != \'\' ORDER BY visit_date')
+        cursor.execute(sql)
         visitors = cursor.fetchall()
 
         for visitor in visitors:
@@ -93,7 +96,7 @@ def makeNodes(date, model):
             country = visitor[6]
             continent = visitor[8]
             venue = visitor[9].lower()
-            name = name + " from " + city + ", " + state + ", " + country
+            name = name + " from " + city + ", " + country +  ", " + visit_date
 
             nodes.append( dict({'name': name, 'group': groups[continent], 'date': visit_date, 'idx': idx, 'continent':continent, 'is_guestbook_signer': 'true' if venue == 'guestbook' else 'false', 'venue':venue}) )
             idx +=1 
@@ -120,6 +123,25 @@ def makeLinks(date, model, nodes):
                 links.append(dict({"source":source_node_id,"target":source_node_id-1,"value":1}))
             if (idx + 1 < len(nodes)):
                 links.append(dict({"source":source_node_id,"target":source_node_id+1,"value":1}))
+
+            #make a weaker link based on similar venue    
+            seeker = idx + 1
+            venue = node["venue"]
+            while (seeker < len(nodes)):
+                if (nodes[seeker]["venue"] == venue):
+                    links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
+                    break
+                seeker +=1
+            seeker = idx
+            
+            
+            while (seeker >= 0):
+                if (nodes[seeker]["venue"] == venue):
+                    links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
+                    break
+                seeker -=1
+
+            
         # make linkes based on continent of origin
         # only 2 links at the moment
         else:
@@ -130,16 +152,14 @@ def makeLinks(date, model, nodes):
                     links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
                     break
                 seeker +=1
-                print seeker
-            seeker = idx + 1
-            print seeker
+            seeker = idx
+            
             
             while (seeker >= 0):
                 if (nodes[seeker]["continent"] == continent):
                     links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
                     break
                 seeker -=1
-                print seeker
            
         idx +=1
     return links
@@ -152,11 +172,9 @@ def makeNetworkData(model, file_prefix):
         cursor = conn.cursor()
 
         #get all individual dates
-        cursor.execute('SELECT DISTINCT (visit_date) FROM individual_visitors ORDER BY visit_date')
+        cursor.execute('SELECT DISTINCT (date(visit_date)) FROM individual_visitors ORDER BY visit_date')
 
         alldates = [row[0] for row in cursor.fetchall()]
-
-        pp.pprint(alldates)
 
     except MySQLdb.Error, e:
           
@@ -171,9 +189,9 @@ def makeNetworkData(model, file_prefix):
     for date in alldates:
         nodes = makeNodes(date, model)
         links = makeLinks(date, model, nodes)
-        pp.pprint(links)
+        #pp.pprint(links)
         data = {"nodes":nodes, "links":links}
-        json.dump(data, open(file_prefix + nodes[0]["date"].replace("/","") +'.json', 'w'),indent=1)
+        json.dump(data, open(file_prefix + str(date).replace("-","_") +'.json', 'w'),indent=1)
 
 #def makeWorldNetworkData(filename):
 
@@ -183,11 +201,12 @@ def makeNetworkData(model, file_prefix):
 pp = pprint.PrettyPrinter(indent=4)
 makeStreamgraphData('time',
                     '/home/ubuntu/thesixthroom/The-Sixth-Room/data/streamgraph_time.csv',
-                    'SELECT COUNT(*) AS visitors, visit_date, venue FROM individual_visitors GROUP BY visit_date, venue ORDER BY visit_date',
+                    'SELECT COUNT(date(visit_date)) AS visitors, visit_date, venue FROM individual_visitors GROUP BY date(visit_date), venue ORDER BY visit_date',
                     ['guestbook','online','museum'])
 makeStreamgraphData('space',
                     '/home/ubuntu/thesixthroom/The-Sixth-Room/data/streamgraph_space.csv',
-                    'SELECT COUNT(*) AS visitors, visit_date, continent FROM individual_visitors WHERE continent !=  \'\' GROUP BY visit_date, continent ORDER BY visit_date',
+                    'SELECT COUNT(date(visit_date)) AS visitors, visit_date, continent FROM individual_visitors WHERE continent != \'\' GROUP BY date(visit_date), continent ORDER BY visit_date',
                     ['Europe','North America','South America','Australia','Asia','Antarctica','Africa'])
-makeNetworkData('time', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_time')
-makeNetworkData('space', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_space')
+makeNetworkData('time', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_time_')
+makeNetworkData('space', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_space_')
+print "all done maestro"

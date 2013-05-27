@@ -63,7 +63,7 @@ function runMainDemo(&$analytics) {
       $results = getResults($analytics, $profileId);
 
       // Step 4. Store the results.
-      storeResults($results);
+      //storeResults($results);
 
       
       printResults($results);
@@ -83,7 +83,7 @@ function getResults(&$analytics, $profileId) {
 	$start_date = "2013-05-23";
 	$end_date = "2013-05-23";
 	$metrics = "ga:visits";
-	$dimensions = "ga:city,ga:region,ga:country,ga:continent";
+	$dimensions = "ga:city,ga:region,ga:country,ga:continent,ga:hour";
 	$optParams = array('dimensions' => $dimensions);
 	return $analytics->data_ga->get($ids,$start_date,$end_date,$metrics,$optParams);
 }

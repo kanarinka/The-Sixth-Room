@@ -6,3 +6,19 @@ data/networkdata_time_30_NEWEROLD.json
 includes/config.php
 
 data/streamgraph_time_FROM_PYTHON.csv
+
+data/networkdata_space_2013_05_24.json
+
+data/networkdata_space_2013_05_25.json
+
+data/networkdata_space_2013_05_26.json
+
+data/networkdata_space_2013_05_27.json
+
+data/networkdata_time_2013_05_24.json
+
+data/networkdata_time_2013_05_25.json
+
+data/networkdata_time_2013_05_26.json
+
+data/networkdata_time_2013_05_27.json

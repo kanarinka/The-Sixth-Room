@@ -1,8 +1,7 @@
 <?php
   include 'continents.php';
   include 'config.php'; 
-  $showForm = true;
-  $showResult = false;
+
   $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
   if (mysqli_connect_errno($con))
@@ -14,25 +13,22 @@
 
     $continent_abbreviation = $countries_to_continent_abbreviations[$_POST['country_abbreviation']];
     $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
-    $visited_us_pavilion = $_POST['visited_us_pavilion'] == "1";
-    $visited_online_tour = $_POST['visited_us_pavilion'] == "1";
-    $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue, visited_us_pavilion, visited_online_tour)
+    $visited_us_pavilion = isset($_POST['visited_us_pavilion']) &&  $_POST['visited_us_pavilion'] == "1";
+    $visited_online_tour = isset($_POST['visited_online_tour']) &&  $_POST['visited_online_tour'] == "1";
+    $sql="INSERT INTO individual_visitors (visit_date, name, city, country_abbreviation, country, continent_abbreviation, continent, venue, visited_us_pavilion, visited_online_tour)
           VALUES
-          ('" . date('Y-m-d H:i:s', strtotime('today')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[state]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK','$visited_us_pavilion','$visited_online_tour')";
+          ('" . date('Y-m-d H:i:s', strtotime('now')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK','$visited_us_pavilion','$visited_online_tour')";
 
     if (!mysqli_query($con,$sql))
     {
       die('Error: ' . mysqli_error($con));
     } 
-    else{
-      $showForm = false;
-      $showResult = true;
-    }
+
   }
 ?>
 
 <div id="guestbook-form-div">
-<?php if ($showForm) { ?>
+
   <form id="guestbook-form" class="form-horizontal" style="margin-top:40px">
     <div class="control-group" id="name-group">
       <label class="control-label" for="name">Name:</label>
@@ -45,11 +41,10 @@
       <label class="control-label" for="city">Where are you from?</label>
       <div class="controls">
          <input type="text" id="city" name="city" placeholder="City" style="margin-bottom:5px">
-         <input type="text" id="state" name="state" placeholder="State/Province" style="margin-bottom:5px">
          <?php 
             include 'countries.php'; 
           ?>
-          <span class="help-inline" style="display:none">Please fill out city, state and country fields.</span>
+          <span class="help-inline" style="display:none">Please fill out city and country fields.</span>
       </div>
     </div>
     <div class="control-group">
@@ -63,23 +58,16 @@
         
       </div>
     </div>
-    <!--<div class="control-group">
-      <label class="control-label" for="comments">Your comments:</label>
-      <div class="controls">
-         <textarea rows="3" name="comments"></textarea>
-      </div>
-    </div>-->
     <div class="control-group">
       <div class="controls"> 
         <button id="sign-the-guestbook-submit" type="button" class="btn btn-warning">Sign the guestbook</button>
       </div>
     </div>
-    <!--<span class="help-block" style="margin-top:40px">Problems? Email <a href="mailto:dignazio@mit.edu">Catherine</a></span>-->
+    
   </form>
-<?php } ?>
-<?php if ($showResult) { ?>
-  <div class="result">Thanks for your info. You have now entered the Sixth Room network.</div>
-<?php } ?>
+
+  <div id="guestbook-result" style="display:none">Thanks for your info. You have now entered the Sixth Room network.</div>
+
 </div>
 <script type="text/javascript">
     $('#sign-the-guestbook-submit').click(function(){
@@ -92,7 +80,7 @@
           $('#name-group').removeClass('warning');
           $('#name-group').find('span.help-inline').hide();
         }
-        if ($('#city').val().length == 0 || $('#state').val().length == 0 || $('#country_abbreviation').val().length != 2){
+        if ($('#city').val().length == 0 || $('#country_abbreviation').val().length != 2){
           $('#location-group').addClass('warning');
           $('#location-group').find('span.help-inline').show();
           errors =true;
@@ -106,8 +94,10 @@
              type: 'POST',
              data: $("#guestbook-form").serialize()+ "&country=" + $('#country_abbreviation').find(":selected").text(),
              success: function(result){     
-               //$('#guestbook-form').hide();
-               $('#guestbook-form-div').html('<p>' + result + '</p>')      
+               $('#guestbook-form').hide();
+               $('#result').show();
+               $('#guestbook-modal').modal('hide');
+             
              }
           });   
         }
