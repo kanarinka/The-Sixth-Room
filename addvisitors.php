@@ -11,6 +11,7 @@
   
   if(isset($_POST['num_visitors'])){
     $formattedDate = date('Y-m-d H:i:s', strtotime($_POST['visit_date']));
+
     $halfDate = substr($formattedDate, 0, 10);
     $duplicate = mysqli_query($con, "SELECT COUNT(*) from individual_visitors WHERE venue = 'MUSEUM' AND visit_date LIKE '". $halfDate . "%'")  or die("SQL error");
     $count = mysqli_fetch_array($duplicate)[0];
@@ -18,10 +19,25 @@
       $duplicate_error = true;
     } else {
       $num_visitors = $_POST['num_visitors'];
+      $visit_date = new DateTime();
+      $visit_date->setTimestamp(strtotime($_POST['visit_date']));
+      /*
+        Say exhibition hours are 10am - 6pm
+      */
+      $begin_hour = 10-2;
+      $end_hour = 18-2;
+
+      $visit_date->setTime($begin_hour, 0,0);
+      
+      $total_minutes = ($end_hour - $begin_hour) * 60;
+      $minute_interval = $total_minutes/$num_visitors;
+
       for ($i=0;$i<$num_visitors;$i++){
-        $sql="INSERT INTO individual_visitors (visit_date, venue)
+        $visit_date->modify("+". strval(round($minute_interval)) . " minutes");
+        $visit_date->modify("+". strval(rand(0,59)) . " seconds");
+        $sql="INSERT INTO individual_visitors (visit_date, venue, city, country, country_abbreviation, continent, continent_abbreviation)
               VALUES
-              ('" . $formattedDate . "' ,'MUSEUM')";
+              ('" . $visit_date->format('Y-m-d H:i:s') . "' ,'MUSEUM', 'Venice', 'Italy', 'IT', 'Europe', 'EU')";
 
         if (!mysqli_query($con,$sql))
         {
@@ -94,7 +110,7 @@
             </thead>
             <tbody>
 <?php
-  $result = mysqli_query($con,"SELECT COUNT(*) AS num_visitors, visit_date, venue FROM individual_visitors WHERE venue = 'MUSEUM' GROUP BY visit_date ORDER BY visit_date DESC ");
+  $result = mysqli_query($con,"SELECT COUNT(date(visit_date)) AS num_visitors, visit_date FROM individual_visitors WHERE venue = 'MUSEUM' GROUP BY date(visit_date), venue ORDER BY visit_date DESC");
   while($row = mysqli_fetch_array($result))
   {
 

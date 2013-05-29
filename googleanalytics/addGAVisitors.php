@@ -1,11 +1,10 @@
 <?php
 require_once(dirname(__FILE__) . "/google-api-php-client/src/Google_Client.php");
 require_once(dirname(__FILE__) . "/google-api-php-client/src/contrib/Google_AnalyticsService.php");
+require_once("/home/ubuntu/thesixthroom/The-Sixth-Room/includes/config.php");
+require_once("/home/ubuntu/thesixthroom/The-Sixth-Room/includes/continents.php");
 
 session_start();
-
-include '../includes/config.php'; 
-include '../includes/continents.php'; 
 
 $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
@@ -13,6 +12,11 @@ if (mysqli_connect_errno($con))
 {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
+$yesterday = date('Y-m-d', strtotime('yesterday'));
+$start_date = $yesterday;
+$end_date = $yesterday;
+//$start_date = "2013-05-26";
+//$end_date = "2013-05-26";
 
 $client = new Google_Client();
 $client->setApplicationName('Hello Analytics API Sample');
@@ -79,13 +83,12 @@ function runMainDemo(&$analytics) {
 }
 
 function getResults(&$analytics, $profileId) {
-  $yesterday = date('Y-m-d', strtotime('yesterday'));
+  global $start_date;
+  global $end_date;
+  
 	$ids = 'ga:' . $profileId;
-	$start_date = $yesterday;
-	$end_date = $yesterday;
-  /*$start_date = "2013-05-26";
-  $end_date = "2013-05-26";
-  */
+	
+  
 	$metrics = "ga:visits";
 	$dimensions = "ga:city,ga:region,ga:country,ga:continent,ga:hour";
 	$optParams = array('dimensions' => $dimensions);
@@ -97,13 +100,26 @@ function printResults(&$results) {
   echo "</pre>";
 }
 function storeResults(&$results){
+  global $start_date;
+  global $end_date;
   global $countries_to_country_codes;
   global $countries_to_continent_abbreviations;
   global $continent_abbreviations_to_continents;
   global $con;
 
   echo "-------------------------------------------------------<br/>\n\n";
-  echo date("l F d, Y", strtotime('yesterday')) . "<br/>\n\n"; 
+  echo $start_date . "<br/>\n\n"; 
+
+  $start_date2 = substr($start_date, 0,4) . "-" . substr($start_date, 5,2) . "-" . substr($start_date, 8,2);
+  $visit_date = new DateTime($start_date2,new DateTimeZone('America/New_York'));
+
+  //DELETE rows that already exist from that date
+  $sql="DELETE FROM individual_visitors WHERE visit_date LIKE '". date('Y-m-d', $visit_date->getTimestamp()) ."%' AND venue='ONLINE'";
+
+  if (!mysqli_query($con,$sql))
+  {
+    die('Error: ' . mysqli_error($con));
+  } 
 
   foreach ($results->rows as $row){
 
@@ -115,7 +131,6 @@ function storeResults(&$results){
     $hour = strpos($row[4] , "not set") ? "" : $row[4];
     $num_visitors = $row[5];
 
-    $visit_date = new DateTime(date('Y-m-d H:i:s', strtotime('yesterday')));
     $visit_date->setTime($hour,0,0);
 
     //if we can find the country in our list then get the exact country code

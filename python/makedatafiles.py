@@ -4,7 +4,8 @@ import MySQLdb
 import csv
 from collections import OrderedDict
 import datetime
-
+import random
+from random import randint
 '''
 get data from individual visitors, from gallery visitors from all time
 generate time & spaces streamgraphs.csv - Streamgraphs are over the whole time period, so TWO files total
@@ -82,7 +83,7 @@ def makeNodes(date, model):
         
         conn = MySQLdb.connect(host = "localhost",user = "webapp",passwd = "1l0ves1x",db = "thesixthroom")
         cursor = conn.cursor()
-        sql = 'SELECT * FROM individual_visitors WHERE (venue = \'ONLINE\' and continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') or (venue = \'GUESTBOOK\') ORDER BY visit_date'
+        sql = 'SELECT * FROM individual_visitors WHERE (continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') or (venue = \'GUESTBOOK\') ORDER BY visit_date'
         
         #get all individual dates
         cursor.execute(sql)
@@ -120,9 +121,9 @@ def makeLinks(date, model, nodes):
         if (model == "time"):
             #simplest: make links based on one forward, one back
             if (idx > 0):
-                links.append(dict({"source":source_node_id,"target":source_node_id-1,"value":1}))
+                links.append(dict({"source":source_node_id,"target":source_node_id-1,"value":2}))
             if (idx + 1 < len(nodes)):
-                links.append(dict({"source":source_node_id,"target":source_node_id+1,"value":1}))
+                links.append(dict({"source":source_node_id,"target":source_node_id+1,"value":2}))
 
             #make a weaker link based on similar venue    
             seeker = idx + 1
@@ -147,19 +148,29 @@ def makeLinks(date, model, nodes):
         else:
             seeker = idx + 1
             continent = node["continent"]
-            while (seeker < len(nodes)):
+            found = 0
+            while (seeker < len(nodes) and found < 1):
                 if (nodes[seeker]["continent"] == continent):
-                    links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
-                    break
+                    links.append(dict({"source":source_node_id,"target":seeker,"value":2}))
+                    found+=1
                 seeker +=1
             seeker = idx
+            found = 0
             
-            
-            while (seeker >= 0):
+            while (seeker >= 0 and found < 1):
                 if (nodes[seeker]["continent"] == continent):
-                    links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
-                    break
+                    links.append(dict({"source":source_node_id,"target":seeker,"value":2}))
+                    found +=1
                 seeker -=1
+
+            #try to make between 1-4 random spatial links
+            triesPossible = 30
+            triesActual = 0
+            randomNode = random.choice(nodes)
+            while ((node == randomNode or node["group"] != randomNode["group"]) and triesActual < triesPossible):
+                randomNode = random.choice(nodes)
+                triesActual +=1
+            links.append(dict({"source":source_node_id,"target":randomNode["idx"],"value":1}))
            
         idx +=1
     return links

@@ -241,9 +241,9 @@ function drawStreamgraph(){
           })
           .on("click", function(d, i){
               var idx = this.id.substring(4);
-              unhighlightSelectedDay();
+              /*unhighlightSelectedDay();
               highlightDay(this, d, i);
-              window.highlightedDay = this.id.substring(4);
+              window.highlightedDay = this.id.substring(4);*/
               var visit_date = d.values[idx]["date"];
               var year = visit_date.getFullYear();
               var month = visit_date.getMonth() + 1;
@@ -254,15 +254,15 @@ function drawStreamgraph(){
                 day = '0' + day.toString();
               window.currentNetworkDate = year + '_'+ month + '_' + day;
 
-              showDayInfo(d, idx);
+              //showDayInfo(d, idx);
               drawForcedGraph('data/networkdata_' + model + '_' + window.currentNetworkDate + '.json', false);
           });
     }
     //select most recent day
-    var selectedElem = '.day-' + parseInt(samples-2);
+    /*var selectedElem = '.day-' + parseInt(samples-2);
     d3.selectAll(selectedElem).style("fill-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
     showDayInfo(d3.select(selectedElem).data()[0], samples-2);
-    window.highlightedDay = samples-2;
+    window.highlightedDay = samples-2;*/
 }
 
 
@@ -281,7 +281,8 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
 
     window.force = d3.layout.force()
         .charge(-50)
-        .linkDistance(50)
+        .linkDistance(20)
+        .gravity(0.05)
         .size([width, height]);
         /*.charge(-100)
         .linkDistance(50)
