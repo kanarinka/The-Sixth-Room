@@ -32,3 +32,8 @@ Store Google Analytics data - Runs at 1AM everyday
 
 Installing MySQLdb for Python
 MacOSX errors - http://www.randomactsofsentience.com/2013/05/gem-install-mysql2-missing-mysqlh-on-os.html
+
+BUILD
+- get new files from git
+- make sure proper config files exist in includes/config.php and python/thesixthroom.config
+- run python makedatafiles.py
