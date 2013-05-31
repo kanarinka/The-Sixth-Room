@@ -30,3 +30,5 @@ data/networkdata_space_2013_05_23.json
 *.json
 
 python/thesixthroom.config
+
+includes/config.server.php
