@@ -1,8 +1,8 @@
 <?php
 require_once(dirname(__FILE__) . "/google-api-php-client/src/Google_Client.php");
 require_once(dirname(__FILE__) . "/google-api-php-client/src/contrib/Google_AnalyticsService.php");
-require_once("/home/ubuntu/thesixthroom/The-Sixth-Room/includes/config.php");
-require_once("/home/ubuntu/thesixthroom/The-Sixth-Room/includes/continents.php");
+require_once(dirname(dirname(__FILE__)) . "/includes/config.php");
+require_once(dirname(dirname(__FILE__)) . "/includes/continents.php");
 
 session_start();
 
@@ -106,6 +106,7 @@ function storeResults(&$results){
   global $countries_to_continent_abbreviations;
   global $continent_abbreviations_to_continents;
   global $con;
+  global $SERVER_PATH;
 
   echo "-------------------------------------------------------<br/>\n\n";
   echo $start_date . "<br/>\n\n"; 
@@ -159,8 +160,10 @@ function storeResults(&$results){
     }
     if ($i > 0){
         //run python script to generate new json data files
-        exec("python ../python/makedatafiles.py", $output);
+        exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
+
     }
+
      
   }
 }

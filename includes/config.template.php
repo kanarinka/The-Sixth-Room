@@ -1,6 +1,7 @@
 <?php
 
 $WEB_PATH = 'http://www.thesixthroom.org';
+$SERVER_PATH = '/home/ubuntu/thesixthroom/The-Sixth-Room/';
 
 $DB_HOST = 'localhost';
 $DB_USER = '';

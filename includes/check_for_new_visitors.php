@@ -26,7 +26,7 @@
   		}
   		if ($updated){
   			//run python script to generate new files
-  			exec("python ../python/makedatafiles.py", $output);
+  			exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
   		}
   		$result["text"] = $text;
   		$result["sql"] = $sql;

@@ -54,7 +54,7 @@
       }
       if ($i > 0){
         //run python script to generate new json data files
-        exec("python ../python/makedatafiles.py", $output);
+        exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
       }
     }
     
