@@ -6,6 +6,8 @@ from collections import OrderedDict
 import datetime
 import random
 from random import randint
+import os
+import ConfigParser
 '''
 get data from individual visitors, from gallery visitors from all time
 generate time & spaces streamgraphs.csv - Streamgraphs are over the whole time period, so TWO files total
@@ -16,13 +18,13 @@ make sure all guestbook people not capped
 '''
 
 def makeStreamgraphData(model, filename, sql, venueList):
-
+    global config
     with open(filename, 'wb') as csvfile:
         mywriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         mywriter.writerow(['index', 'date', 'venue', 'num_visitors'])
         
         try:
-            conn = MySQLdb.connect(host = "localhost",user = "webapp",passwd = "1l0ves1x",db = "thesixthroom")
+            conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
             cursor = conn.cursor()
 
             # Get count from individual visitors by venue & by day
@@ -75,13 +77,13 @@ def makeStreamgraphData(model, filename, sql, venueList):
 - if model = time then link in time, if model = space then link in space
 '''
 def makeNodes(date, model):
-    global pp
+    global pp, config 
     nodes = []
     idx = 0
     groups = {"Africa" : 1, "Antarctica" : 2, "Asia" : 3, "Europe" : 4, "Australia" : 5, "North America" : 6, "South America" : 7}
     try:
         
-        conn = MySQLdb.connect(host = "localhost",user = "webapp",passwd = "1l0ves1x",db = "thesixthroom")
+        conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
         cursor = conn.cursor()
         sql = 'SELECT * FROM individual_visitors WHERE (continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') or (venue = \'GUESTBOOK\') ORDER BY visit_date'
         
@@ -90,6 +92,7 @@ def makeNodes(date, model):
         visitors = cursor.fetchall()
 
         for visitor in visitors:
+            db_id = visitor[0]
             name = visitor[1]
             visit_date = visitor[2].strftime('%m/%d/%Y')
             city = visitor[3]
@@ -99,7 +102,7 @@ def makeNodes(date, model):
             venue = visitor[9].lower()
             name = name + " from " + city + ", " + country +  ", " + visit_date
 
-            nodes.append( dict({'name': name, 'group': groups[continent], 'date': visit_date, 'idx': idx, 'continent':continent, 'is_guestbook_signer': 'true' if venue == 'guestbook' else 'false', 'venue':venue}) )
+            nodes.append( dict({'name': name, 'group': groups[continent], 'date': visit_date, 'idx': idx, 'continent':continent, 'is_guestbook_signer': 'true' if venue == 'guestbook' else 'false', 'venue':venue, 'db_id':db_id}) )
             idx +=1 
 
     except MySQLdb.Error, e:
@@ -176,10 +179,10 @@ def makeLinks(date, model, nodes):
     return links
 
 def makeNetworkData(model, file_prefix):
-    global pp
+    global pp, config 
     try:
         
-        conn = MySQLdb.connect(host = "localhost",user = "webapp",passwd = "1l0ves1x",db = "thesixthroom")
+        conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
         cursor = conn.cursor()
 
         #get all individual dates
@@ -202,7 +205,14 @@ def makeNetworkData(model, file_prefix):
         links = makeLinks(date, model, nodes)
         #pp.pprint(links)
         data = {"nodes":nodes, "links":links}
-        json.dump(data, open(file_prefix + str(date).replace("-","_") +'.json', 'w'),indent=1)
+        filename = file_prefix + str(date).replace("-","_") +'.json'
+        try:
+           os.remove(filename)
+        except OSError:
+           print 'file doesnt exist, continuing'
+        
+        json.dump(data, open(filename, 'w'),indent=1)
+        #os.chmod(filename, 0o766)
 
 #def makeWorldNetworkData(filename):
 
@@ -210,14 +220,16 @@ def makeNetworkData(model, file_prefix):
 # MAIN
 #################################################
 pp = pprint.PrettyPrinter(indent=4)
+config = ConfigParser.ConfigParser()
+config.read('thesixthroom.config')
 makeStreamgraphData('time',
-                    '/home/ubuntu/thesixthroom/The-Sixth-Room/data/streamgraph_time.csv',
+                    config.get('app','home_dir') + 'data/streamgraph_time.csv',
                     'SELECT COUNT(date(visit_date)) AS visitors, visit_date, venue FROM individual_visitors GROUP BY date(visit_date), venue ORDER BY visit_date',
                     ['guestbook','online','museum'])
 makeStreamgraphData('space',
-                    '/home/ubuntu/thesixthroom/The-Sixth-Room/data/streamgraph_space.csv',
+                    config.get('app','home_dir') + 'data/streamgraph_space.csv',
                     'SELECT COUNT(date(visit_date)) AS visitors, visit_date, continent FROM individual_visitors WHERE continent != \'\' GROUP BY date(visit_date), continent ORDER BY visit_date',
                     ['Europe','North America','South America','Australia','Asia','Antarctica','Africa'])
-makeNetworkData('time', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_time_')
-makeNetworkData('space', '/home/ubuntu/thesixthroom/The-Sixth-Room/data/networkdata_space_')
+makeNetworkData('time', config.get('app','home_dir') + 'data/networkdata_time_')
+makeNetworkData('space', config.get('app','home_dir') + 'data/networkdata_space_')
 print "all done maestro"

@@ -4,6 +4,11 @@
   $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
   $duplicate_error = false;
+
+  $today = date('m-d-Y', strtotime('today'));
+  $yesterday = date('m-d-Y', strtotime('yesterday'));
+  $twodays = date('m-d-Y', strtotime('2 days ago'));
+
   if (mysqli_connect_errno($con))
   {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -18,9 +23,12 @@
     if ($count > 0){
       $duplicate_error = true;
     } else {
+
       $num_visitors = $_POST['num_visitors'];
+      $num_visitors = round($num_visitors/100);
       $visit_date = new DateTime();
       $visit_date->setTimestamp(strtotime($_POST['visit_date']));
+      $name = "100 anonymous visitors";
       /*
         Say exhibition hours are 10am - 6pm
       */
@@ -35,14 +43,18 @@
       for ($i=0;$i<$num_visitors;$i++){
         $visit_date->modify("+". strval(round($minute_interval)) . " minutes");
         $visit_date->modify("+". strval(rand(0,59)) . " seconds");
-        $sql="INSERT INTO individual_visitors (visit_date, venue, city, country, country_abbreviation, continent, continent_abbreviation)
+        $sql="INSERT INTO individual_visitors (name, visit_date, venue, city, country, country_abbreviation, continent, continent_abbreviation)
               VALUES
-              ('" . $visit_date->format('Y-m-d H:i:s') . "' ,'MUSEUM', 'Venice', 'Italy', 'IT', 'Europe', 'EU')";
+              ('" . $name . "', '" . $visit_date->format('Y-m-d H:i:s') . "' ,'MUSEUM', 'Venice', 'Italy', 'IT', 'Europe', 'EU')";
 
         if (!mysqli_query($con,$sql))
         {
           die('Error: ' . mysqli_error($con));
         }
+      }
+      if ($i > 0){
+        //run python script to generate new json data files
+        exec("python ../python/makedatafiles.py", $output);
       }
     }
     
@@ -88,8 +100,9 @@
               <label class="control-label" for="inputPassword">For Date:</label>
               <div class="controls">
                 <select name="visit_date">
-                  <option value="today">Today</option>
-                  <option value="yesterday">Yesterday</option>
+                  <option value="today">Today - <?= $today ?></option>
+                  <option value="yesterday">Yesterday - <?= $yesterday ?></option>
+                  <option value="2 days ago">Two Days Ago - <?= $twodays ?></option>
                 </select>
               </div>
             </div>
@@ -117,7 +130,7 @@
     ?>
               <tr>
                 <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
-                <td><?= $row['num_visitors'] ?></td>
+                <td><?= $row['num_visitors'] * 100 ?></td>
               </tr>
 <?php } ?>
             </tbody>

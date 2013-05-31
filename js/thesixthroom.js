@@ -2,11 +2,45 @@
   MAIN FUNCTION 
 *******************************************************/
 var interval=self.setInterval(function(){checkForNewPeople()},5000);
+$('input').keypress(function (e) {
+  if (e.which == 13) {
+    search();
+  }
+});
+$('#search-submit').click(search);
+function search(){
+  if ($('#searchtext').val().length > 0){
+    $.ajax({
+             url: webHost + 'includes/search.php' , 
+             type: 'POST',
+             data: "&searchtext=" + $('#searchtext').val(),
+             dataType: "json",
+             success: function(results){  
+                $('#search-results').fadeIn();
+                $('#search-results').find('ul').html("");
+                for (var i=0;i<results.length;i++){
+                    var result = results[i];
+                    var shareLink = 'http://www.thesixthroom.org/index.php?p=' + result["db_id"] + '&model=' + model;
+                    var shareText = result["name"].trim() + "%20is%20part%20of%20the%20Sixth%20Room%20-%20interactive%20art%20at%20the%20Venice%20Biennial!";
+                    var twitterLink = "http://twitter.com/share?text=" + shareText + "&url=" + shareLink;
+                    var facebookLink = "http://www.facebook.com/sharer.php?s=100&p[title]=The%20Sixth%20Room&p[url]=" + shareLink + "&p[summary]=" + shareText;
+                    var li = '<li class="clearfix"><a href="' + 'index.php?p=' + result["db_id"] + '&model=' + model + '">' + result["name"].trim() + ' from ' + result["city"] + ' ' + result["country"] + '</a> <span class="pull-right">Share this link via: <a id="twitter-link" href="'+ twitterLink + '" target="_blank" class="sb small twitter">Twitter</a> <a id="facebook-link" href="' + facebookLink + '" target="_blank" class="sb small facebook">Facebook</a></span></li>';
+                    $('#search-results').find('ul').append(li);
+                }
+                if (results.length == 0){
+                  var li = "<li>No results matched. Try searching for just part of the person's name.</li>";
+                  $('#search-results').find('ul').append(li);
+                }
+             }
+          });   
+  }
+  return false;
 
+}
 function checkForNewPeople()
 {
   $.ajax({
-             url: 'http://thesixthroom.org/includes/check_for_new_visitors.php' , 
+             url: webHost + 'includes/check_for_new_visitors.php' , 
              type: 'POST',
              data: "&after_date=" + lastTime,
              dataType: "json",
@@ -77,7 +111,7 @@ function showDateInfo(e,d,i){
     .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"]) + "px"})
     .style("max-width", function(d){return parseInt($(window).width() - $('.day-' + i + ":last").offset()["left"]) + "px"})
     //.style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
-    .html(d.values[i].date.toString('ddd, MMM dd, yyyy') + " - " + name + " - " + d.values[i].num_visitors + " visitors");
+    .html( d.values[i].date.toString('ddd, MMM dd, yyyy') + " - " + name + " - " + (d.key == 'museum' ? d.values[i].num_visitors * 100 : d.values[i].num_visitors) + " visitors");
 }
 function showDayInfo(d,i){
 
@@ -306,6 +340,7 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
           .attr("class", "link")
           .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
+
       /**NEW STUFF**********/
       var node_drag = d3.behavior.drag()
         .on("dragstart", dragstart)
@@ -335,6 +370,9 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
           .data(graph.nodes)
         .enter().append("circle")
           .attr("class", "node")
+          .attr("id", function(d) { 
+            return "node-" + d.db_id;;
+          })
           .attr("r", function(d) { 
             var r = d.is_guestbook_signer == "true" ? 10 : 5;
 
@@ -348,22 +386,26 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
                unhighlightNode(d3.select(this), d);
                d.node_is_on = 0;
                d.fixed = false;
+
             }
             else if (d.fixed){
               highlightNodeAndStayOn(d3.select(this), d);
               d.node_is_on = 1;
             }
+
             window.resumeForceGraph();
           })
           .on("mouseover",function(d,i){
             if (!d.fixed){
               highlightNodeAndStayOn(d3.select(this), d);
             } 
+            highlightLinks(.1,d);
           })
           .on("mouseout",function(d,i){
             if (!d.fixed){
               unhighlightNode(d3.select(this), d);
             } 
+             highlightLinks(1,d);
           })
           .call(node_drag);
 
@@ -391,6 +433,7 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
         d3.select("#name-label-" + d.idx).style("opacity","0.0").style("display","block").transition().duration().style("opacity","1.0").transition().delay(2000).duration(700).style("opacity", "0.0").style("display", "none");
 
       }
+      
       function highlightNodeAndStayOn(node, d){
        
         node.transition().duration().attr("r", function(d){
@@ -423,6 +466,32 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
       if (highlightLatestNode){
         var latestNode = node[0][node[0].length -1];
         highlightNodeAndStayOn(d3.select(latestNode), latestNode['__data__']);
+      }
+      if (personID != null && parseInt(personID) > 0){
+        highlightNodeAndStayOn(d3.select('#node-' + personID), d3.select('#node-' + personID).data()[0]);
+      }
+      var linkedByIndex = {};
+      graph.links.forEach(function(d) {
+          linkedByIndex[d.source.index + "," + d.target.index] = 1;
+      });
+      function isConnected(a, b) {
+        return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+      }
+      function highlightLinks(opacity, d) {
+        
+        /*node.style("stroke-opacity", function(o) {
+            thisOpacity = isConnected(d, o) ? 1 : opacity;
+            this.setAttribute('fill-opacity', thisOpacity);
+            return thisOpacity;
+        });*/
+
+        link.style("stroke", function(o){ 
+          return (o.source === d || o.target === d )&& opacity != 1? "red" : "#999"; 
+        }).style("stroke-width", function(o){ 
+          return (o.source === d || o.target === d )&& opacity != 1? "2" : "1"; 
+        });
+        
+        
       }
     });
     //var forceInterval=self.setInterval(function(){resumeForceGraph()},5000);

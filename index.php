@@ -1,6 +1,7 @@
 <?php
   session_start();
-  
+  date_default_timezone_set('EST');
+  include 'includes/config.php'; 
 
   /*
     URL from on site will be http://www.thesixthroom.org/index.php?uspavilion=true
@@ -33,11 +34,28 @@
   else 
     $model = "time";
 
+  //retrieve a specific person with their id from the database
+  if (isset($_GET['p'])){
+    $person_id = $_GET['p'];
+    $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
+
+    //SQL fails quietly here
+    if (!mysqli_connect_errno($con)){
+      $sql="SELECT * FROM individual_visitors WHERE id = " . (int)$person_id;
+      $sql_result = mysqli_query($con,$sql);
+      
+      while($row = mysqli_fetch_array($sql_result)){
+        $current_network_date = date("Y_m_d", strtotime($row["visit_date"]));
+        $name = $row["name"];
+      }
+    }
+  }
   //$streamdataFilepath = "data/streamdata_" . $model . "_" . $days . ".csv";
   //$networkdataFilepath = "data/networkdata_" . $model . "_" . $days . ".json";
-  date_default_timezone_set('EST');
-  $yesterday = date("Y_m_d", time() - 60 * 60 * 24);
-  $current_network_date = $yesterday;
+  if (!isset($current_network_date)){
+    $yesterday = date("Y_m_d", time() - 60 * 60 * 24);
+    $current_network_date = $yesterday;
+  }
   $streamdataFilepath = "data/streamgraph_" . $model . ".csv";
   $networkdataFilepath = "data/networkdata_" . $model . "_" . $current_network_date . ".json";
 
@@ -51,6 +69,7 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/thesixthroom_visualization.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
+<link href="images/css-social-buttons/social-buttons.css" rel="stylesheet">
 <script src="js/d3.js"></script>
 <body>
 
@@ -69,7 +88,7 @@
   </div>
 
   <!-- Button to trigger About modal  -->
-  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a> | <a href="#whereami-modal" role="button" id="search-button" data-toggle="modal">search</a> 
+  <h4 id="about-button"><a href="#about-modal" role="button" data-toggle="modal">about</a> | <a href="#search-modal" role="button" id="search-button" data-toggle="modal">search</a> 
     </h4>
    
   <!-- About Modal -->
@@ -97,6 +116,42 @@
       
     </div>
   </div>
+  <!-- Search Modal -->
+  <div id="search-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="pull-right btn btn-info" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 style="font-family: 'Codystar', cursive;">Search the Sixth Room</h3>
+    </div>
+    <div class="modal-body">
+      <p>If you or your friends have signed the guestbook you can search for yourselves here.</p>
+      <div id="search-results" style="display:none">
+        <legend>Results</legend>
+        <ul style="list-style-type: none;margin: 0;"></ul>
+        <legend>Search Again</legend>
+      </div>
+  
+        <fieldset>
+          
+          
+          <input style="margin-top:20px" class="input-large" type="text" name="searchtext" id="searchtext" placeholder="Type name here..."> <button type="button" id="search-submit" class="btn btn-warning" style="margin-top:10px">Search</button>
+          <span class="help-block">For best results type only part of the person's name, like their only their first or only their last name. Case doesn't matter.</span>
+           
+          
+        </fieldset>
+        
+
+      
+      
+    </div>
+    <div class="modal-footer">
+     
+      
+        <button id="sign-the-guestbook-button" class="btn btn-warning pull-right" style="margin-left:20px" data-dismiss="modal" aria-hidden="true">Sign the guestbook</button> 
+        <p>Haven't signed the guestbook yet? Sign here</p>
+      
+    </div>
+  </div>
+
   <!-- Guestbook Modal -->
   <div id="guestbook-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -143,10 +198,12 @@ var isMobile = {
     if (!isMobile.any())
       window.onresize = function(){window.location.reload();}
 
+    var networkdataFilepath = "<?= $networkdataFilepath ?>";
+    var webHost = "<?= $WEB_PATH ?>";
     var streamdataFilepath = "<?= $streamdataFilepath ?>";
     var networkdataFilepath = "<?= $networkdataFilepath ?>";
     window.currentNetworkDate = "<?= $current_network_date ?>";
-
+    var personID = "<?= $person_id ?>";
     var showGuestbook = "<?= $showGuestbook ?>";
     var lastTime = "<?= time() ?>";
 
@@ -168,7 +225,7 @@ var isMobile = {
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
-    $('#world-button, #search-button').click(function(){alert('coming soon')});
+    $('#world-button').click(function(){alert('coming soon')});
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>

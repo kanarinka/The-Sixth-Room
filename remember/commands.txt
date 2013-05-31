@@ -29,3 +29,6 @@ sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
 Cronjobs:
 Store Google Analytics data - Runs at 1AM everyday
 *  1  *  *  *  php /home/ubuntu/thesixthroom/The-Sixth-Room/googleanalytics/addGAVisitors.php > /home/ubuntu/thesixthroom/The-Sixth-Room/googleanalytics/analytics.log 2>&1
+
+Installing MySQLdb for Python
+MacOSX errors - http://www.randomactsofsentience.com/2013/05/gem-install-mysql2-missing-mysqlh-on-os.html

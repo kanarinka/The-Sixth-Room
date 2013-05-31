@@ -147,14 +147,19 @@ function storeResults(&$results){
     while($i < $num_visitors){
       $sql="INSERT INTO individual_visitors (visit_date, name, city, state, country_abbreviation, country, continent_abbreviation, continent, venue)
           VALUES
-          ('" . date('Y-m-d H:i:s', $visit_date->getTimestamp()) . "' ,'" . mysqli_real_escape_string($con, 'anonymous') . "','$city','$state','$country_abbreviation','$country','$continent_abbreviation','$continent', 'ONLINE')";
+          ('" . date('Y-m-d H:i:s', $visit_date->getTimestamp()) . "' ,'" . mysqli_real_escape_string($con, 'anonymous') . "','" . mysqli_real_escape_string($con, $city) . "','" . mysqli_real_escape_string($con, $state) . "','$country_abbreviation','" . mysqli_real_escape_string($con, $country) . "','$continent_abbreviation','$continent', 'ONLINE')";
 
+      
       if (!mysqli_query($con,$sql))
       {
         die('Error: ' . mysqli_error($con));
       } 
       echo "Stored " . $city . " " . $state . " " . $country . " " . $continent . " " . $hour . "<br/>\n";
       $i++;
+    }
+    if ($i > 0){
+        //run python script to generate new json data files
+        exec("python ../python/makedatafiles.py", $output);
     }
      
   }

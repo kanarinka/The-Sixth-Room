@@ -1,6 +1,7 @@
 <?php
   include 'continents.php';
   include 'config.php'; 
+  date_default_timezone_set('EST');
 
   $con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 
@@ -13,8 +14,9 @@
 
     $continent_abbreviation = $countries_to_continent_abbreviations[$_POST['country_abbreviation']];
     $continent = $continent_abbreviations_to_continents[$continent_abbreviation];
-    $visited_us_pavilion = isset($_POST['visited_us_pavilion']) &&  $_POST['visited_us_pavilion'] == "1";
-    $visited_online_tour = isset($_POST['visited_online_tour']) &&  $_POST['visited_online_tour'] == "1";
+    $visited_us_pavilion = (isset($_POST['visited_us_pavilion']) &&  $_POST['visited_us_pavilion'] == "1") ? 1 : 0;
+    $visited_online_tour = (isset($_POST['visited_online_tour']) &&  $_POST['visited_online_tour'] == "1") ? 1 : 0;
+
     $sql="INSERT INTO individual_visitors (visit_date, name, city, country_abbreviation, country, continent_abbreviation, continent, venue, visited_us_pavilion, visited_online_tour)
           VALUES
           ('" . date('Y-m-d H:i:s', strtotime('now')) . "' ,'" . mysqli_real_escape_string($con, $_POST['name']) . "','$_POST[city]','$_POST[country_abbreviation]','$_POST[country]','$continent_abbreviation','$continent', 'GUESTBOOK','$visited_us_pavilion','$visited_online_tour')";
@@ -90,7 +92,7 @@
         }
         if(!errors){
           $.ajax({
-             url: 'http://thesixthroom.org/includes/guestbook_form.php' , 
+             url: webHost + 'includes/guestbook_form.php' , 
              type: 'POST',
              data: $("#guestbook-form").serialize()+ "&country=" + $('#country_abbreviation').find(":selected").text(),
              success: function(result){     

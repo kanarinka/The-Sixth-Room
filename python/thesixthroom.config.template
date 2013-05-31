@@ -1,0 +1,8 @@
+[db]
+user: 
+pass: 
+host: localhost
+db_name: thesixthroom
+
+[app]
+home_dir: 

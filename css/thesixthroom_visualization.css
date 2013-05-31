@@ -89,10 +89,18 @@ rect{
 #time-space a.selected{
   text-decoration: none;
 }
-#about-modal,#guestbook-modal{
+.modal{
   color: #ddd;
   background-color: #053749;
   border: 1px solid #ccc;
+}
+.help-block{
+  color:#ddd;
+  font-size: 12px;
+  margin-bottom: 50px;
+}
+legend{
+  color:#ddd;
 }
 .modal-footer{
   background-color: #053749;

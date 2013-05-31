@@ -1,7 +1,10 @@
 <?php 
 date_default_timezone_set('EST');
 $yesterday = strtotime('yesterday');
-echo $yesterday;
+echo $yesterday . "<br/>";
+
+$twodays = strtotime('2 days ago');
+echo date('Y-m-d',$twodays);
 
 $start_date ="05-24-2013";
 $start_date2 = substr($start_date, 6) . "-" . substr($start_date, 0,2) . "-" . substr($start_date, 3,2);

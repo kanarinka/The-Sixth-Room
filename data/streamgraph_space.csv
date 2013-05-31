@@ -1,29 +1,29 @@
 index,date,venue,num_visitors
-0,05/24/2013,North America,23
-0,05/24/2013,Europe,3
-0,05/24/2013,South America,0
-0,05/24/2013,Australia,0
-0,05/24/2013,Asia,0
-0,05/24/2013,Antarctica,0
-0,05/24/2013,Africa,0
-1,05/25/2013,North America,15
-1,05/25/2013,Europe,10
-1,05/25/2013,South America,0
-1,05/25/2013,Australia,0
-1,05/25/2013,Asia,0
-1,05/25/2013,Antarctica,0
-1,05/25/2013,Africa,0
-2,05/26/2013,North America,34
-2,05/26/2013,Europe,10
-2,05/26/2013,Asia,1
-2,05/26/2013,South America,0
-2,05/26/2013,Australia,0
-2,05/26/2013,Antarctica,0
-2,05/26/2013,Africa,0
-3,05/27/2013,North America,4
-3,05/27/2013,Europe,14
-3,05/27/2013,Africa,1
-3,05/27/2013,Australia,1
-3,05/27/2013,South America,0
-3,05/27/2013,Asia,0
-3,05/27/2013,Antarctica,0
+0,05/28/2013,Europe,17
+0,05/28/2013,North America,0
+0,05/28/2013,South America,0
+0,05/28/2013,Australia,0
+0,05/28/2013,Asia,0
+0,05/28/2013,Antarctica,0
+0,05/28/2013,Africa,0
+1,05/29/2013,Europe,93
+1,05/29/2013,Asia,3
+1,05/29/2013,North America,47
+1,05/29/2013,South America,0
+1,05/29/2013,Australia,0
+1,05/29/2013,Antarctica,0
+1,05/29/2013,Africa,0
+2,05/30/2013,Australia,1
+2,05/30/2013,Europe,78
+2,05/30/2013,North America,54
+2,05/30/2013,Asia,1
+2,05/30/2013,South America,0
+2,05/30/2013,Antarctica,0
+2,05/30/2013,Africa,0
+3,05/31/2013,North America,41
+3,05/31/2013,Europe,26
+3,05/31/2013,Africa,1
+3,05/31/2013,South America,0
+3,05/31/2013,Australia,0
+3,05/31/2013,Asia,0
+3,05/31/2013,Antarctica,0

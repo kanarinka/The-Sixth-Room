@@ -1,10 +1,11 @@
 <?php
 	include 'config.php'; 
+	date_default_timezone_set('EST');
 	$con=mysqli_connect($DB_HOST,$DB_USER,$DB_PWD,$DB_NAME);
 	$after_date = $_REQUEST['after_date'];
 	$new_time = time();
 	$text = "";
-	$result = ["new_time" => $new_time, "text" => $text];
+	$result = array("new_time" => $new_time, "text" => $text);
 	if (isset($after_date)){
 
 		$after_date = date('Y-m-d H:i:s', $after_date);
@@ -20,7 +21,7 @@
 	    $updated = false;
   		while($row = mysqli_fetch_array($sql_result)){
 
-  			$text = $text . $row["name"] . " from " . $row["city"] . " " . $row["state"] . " " . $row["country"] . " just entered the network <br/>";
+  			$text = $text . $row["name"] . " from " . $row["city"] . " " . $row["country"] . " just entered the network <br/>";
   			$updated = true;
   		}
   		if ($updated){

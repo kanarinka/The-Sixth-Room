@@ -24,3 +24,9 @@ data/networkdata_time_2013_05_26.json
 data/networkdata_time_2013_05_27.json
 
 *.log
+
+data/networkdata_space_2013_05_23.json
+
+*.json
+
+python/thesixthroom.config
