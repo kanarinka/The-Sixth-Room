@@ -37,3 +37,5 @@ BUILD
 - get new files from git
 - make sure proper config files exist in includes/config.php and python/thesixthroom.config
 - run python makedatafiles.py
+- check includes/test_exec.php to see if exec python from PHP works
+- check permissions on data/ dir - reset if necessary (need to fix this!)

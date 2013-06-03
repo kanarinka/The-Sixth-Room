@@ -34,3 +34,7 @@ python/thesixthroom.config
 includes/config.server.php
 
 python/thesixthroom.server.config
+
+*.json
+
+*.json

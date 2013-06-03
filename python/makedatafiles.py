@@ -1,12 +1,13 @@
 import simplejson as json
 import pprint
+import os
 import MySQLdb
 import csv
 from collections import OrderedDict
 import datetime
 import random
 from random import randint
-import os
+
 import ConfigParser
 '''
 get data from individual visitors, from gallery visitors from all time
@@ -19,16 +20,19 @@ make sure all guestbook people not capped
 
 def makeStreamgraphData(model, filename, sql, venueList):
     global config
+    try:
+       os.remove(filename)
+    except OSError:
+       print 'file ' + filename + ' doesnt exist, continuing'
     with open(filename, 'wb') as csvfile:
+        os.chmod(filename, 0o766)
         mywriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         mywriter.writerow(['index', 'date', 'venue', 'num_visitors'])
+        
         
         try:
             conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
             cursor = conn.cursor()
-
-            # Get count from individual visitors by venue & by day
-            # Put in data structure indexed by 
             
             cursor.execute(sql)
             visitor_counts = cursor.fetchall()
@@ -75,6 +79,7 @@ def makeStreamgraphData(model, filename, sql, venueList):
 - iterate through and collect all nodes for that date for which venue != gallery
 - make a node from each online
 - if model = time then link in time, if model = space then link in space
+- for pavilion visitors - because numbers are high and ppl are anonymous - aggregate them in groups of 100
 '''
 def makeNodes(date, model):
     global pp, config 
@@ -91,19 +96,28 @@ def makeNodes(date, model):
         cursor.execute(sql)
         visitors = cursor.fetchall()
 
-        for visitor in visitors:
-            db_id = visitor[0]
-            name = visitor[1]
-            visit_date = visitor[2].strftime('%m/%d/%Y')
-            city = visitor[3]
-            state = visitor[4]
-            country = visitor[6]
-            continent = visitor[8]
-            venue = visitor[9].lower()
-            name = name + " from " + city + ", " + country +  ", " + visit_date
+        #only grab a pavilion visitor every 100 pavilion visitors
+        pavilion_count = 0;
 
-            nodes.append( dict({'name': name, 'group': groups[continent], 'date': visit_date, 'idx': idx, 'continent':continent, 'is_guestbook_signer': 'true' if venue == 'guestbook' else 'false', 'venue':venue, 'db_id':db_id}) )
-            idx +=1 
+        for visitor in visitors:
+            venue = visitor[9].lower()
+            if (venue != 'museum' or (venue == 'museum' and pavilion_count == 99)):
+                pavilion_count = 0
+                db_id = visitor[0]
+                name = visitor[1]
+                visit_date = visitor[2].strftime('%m/%d/%Y')
+                city = visitor[3]
+                state = visitor[4]
+                country = visitor[6]
+                continent = visitor[8]
+                if (venue == 'museum'):
+                    name = '100 US Pavilion visitors'
+                name = name + " from " + city + ", " + country +  ", " + visit_date
+
+                nodes.append( dict({'name': name, 'group': groups[continent], 'date': visit_date, 'idx': idx, 'continent':continent, 'is_guestbook_signer': 'true' if venue == 'guestbook' else 'false', 'venue':venue, 'db_id':db_id}) )
+                idx +=1
+            else:
+                pavilion_count +=1
 
     except MySQLdb.Error, e:
           
@@ -209,10 +223,11 @@ def makeNetworkData(model, file_prefix):
         try:
            os.remove(filename)
         except OSError:
-           print 'file doesnt exist, continuing'
+           print 'file ' + filename + ' doesnt exist, continuing'
         
         json.dump(data, open(filename, 'w'),indent=1)
-        #os.chmod(filename, 0o766)
+        os.chmod(filename, 0o766)
+        
 
 #def makeWorldNetworkData(filename):
 
@@ -221,7 +236,17 @@ def makeNetworkData(model, file_prefix):
 #################################################
 pp = pprint.PrettyPrinter(indent=4)
 config = ConfigParser.ConfigParser()
-config.read('thesixthroom.config')
+
+#ARG trying to get app dir sucks!!! This is a bad solution but I'm just doin it because I'm havin a baby!
+try:
+    if (os.path.isdir('home/ubuntu')):
+        config.read('home/ubuntu/thesixthroom/The-Sixth-Room/python/thesixthroom.config')
+    else:
+        config.read('/Users/kanarinka/Sites/thesixthroom/python/thesixthroom.config')
+except IOError:
+    print "Can't located app config file"
+
+
 makeStreamgraphData('time',
                     config.get('app','home_dir') + 'data/streamgraph_time.csv',
                     'SELECT COUNT(date(visit_date)) AS visitors, visit_date, venue FROM individual_visitors GROUP BY date(visit_date), venue ORDER BY visit_date',

@@ -8,6 +8,12 @@
   $today = date('m-d-Y', strtotime('today'));
   $yesterday = date('m-d-Y', strtotime('yesterday'));
   $twodays = date('m-d-Y', strtotime('2 days ago'));
+  $threedays = date('m-d-Y', strtotime('3 days ago'));
+  $fourdays = date('m-d-Y', strtotime('4 days ago'));
+  $fivedays = date('m-d-Y', strtotime('5 days ago'));
+  $sixdays = date('m-d-Y', strtotime('6 days ago'));
+  $sevendays = date('m-d-Y', strtotime('7 days ago'));
+  $eightdays = date('m-d-Y', strtotime('8 days ago'));
 
   if (mysqli_connect_errno($con))
   {
@@ -18,17 +24,17 @@
     $formattedDate = date('Y-m-d H:i:s', strtotime($_POST['visit_date']));
 
     $halfDate = substr($formattedDate, 0, 10);
-    $duplicate = mysqli_query($con, "SELECT COUNT(*) from individual_visitors WHERE venue = 'MUSEUM' AND visit_date LIKE '". $halfDate . "%'")  or die("SQL error");
-    $count = mysqli_fetch_array($duplicate)[0];
-    if ($count > 0){
+    $duplicate = mysqli_query($con, "SELECT COUNT(*) from individual_visitors WHERE venue = 'MUSEUM' AND visit_date LIKE '". $halfDate . "%'") or die("SQL error");
+    $count = mysqli_fetch_array($duplicate);
+    if ($count[0] > 0){
       $duplicate_error = true;
     } else {
 
       $num_visitors = $_POST['num_visitors'];
-      $num_visitors = round($num_visitors/100);
+      
       $visit_date = new DateTime();
       $visit_date->setTimestamp(strtotime($_POST['visit_date']));
-      $name = "100 anonymous visitors";
+      $name = "US Pavilion visitor";
       /*
         Say exhibition hours are 10am - 6pm
       */
@@ -37,15 +43,15 @@
 
       $visit_date->setTime($begin_hour, 0,0);
       
-      $total_minutes = ($end_hour - $begin_hour) * 60;
-      $minute_interval = $total_minutes/$num_visitors;
+      $total_seconds = ($end_hour - $begin_hour) * 60 * 60;
+      $second_interval = $total_seconds/$num_visitors;
 
       for ($i=0;$i<$num_visitors;$i++){
-        $visit_date->modify("+". strval(round($minute_interval)) . " minutes");
-        $visit_date->modify("+". strval(rand(0,59)) . " seconds");
-        $sql="INSERT INTO individual_visitors (name, visit_date, venue, city, country, country_abbreviation, continent, continent_abbreviation)
+        $visit_date->modify("+". strval(round($second_interval)) . " seconds");
+        //$visit_date->modify("+". strval(rand(0,59)) . " seconds");
+        $sql="INSERT INTO individual_visitors (name, visit_date, venue, city, country, country_abbreviation, continent, continent_abbreviation, visited_us_pavilion)
               VALUES
-              ('" . $name . "', '" . $visit_date->format('Y-m-d H:i:s') . "' ,'MUSEUM', 'Venice', 'Italy', 'IT', 'Europe', 'EU')";
+              ('" . $name . "', '" . $visit_date->format('Y-m-d H:i:s') . "' ,'MUSEUM', 'Venice', 'Italy', 'IT', 'Europe', 'EU', 1)";
 
         if (!mysqli_query($con,$sql))
         {
@@ -55,6 +61,7 @@
       if ($i > 0){
         //run python script to generate new json data files
         exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
+        
       }
     }
     
@@ -88,6 +95,13 @@
             if ($duplicate_error){
               echo '<h4 style="color:red">Sorry, that date already has visitor data.</h4>';
             }
+            if ($output){
+              echo '<h4 style="color:red"> UPDATE RESULTS (If it says "all done, maestro" then 
+                everything updated properly. Otherwise, copy and paste message and send to Catherine):</h4><br/><pre>';
+              echo var_dump($output);
+              echo "</pre>";
+              
+            }
           ?>
           <form style="margin-top:40px" method="post" action="addvisitors.php">
             <div class="control-group">
@@ -103,6 +117,12 @@
                   <option value="today">Today - <?= $today ?></option>
                   <option value="yesterday">Yesterday - <?= $yesterday ?></option>
                   <option value="2 days ago">Two Days Ago - <?= $twodays ?></option>
+                  <option value="3 days ago">Three Days Ago - <?= $threedays ?></option>
+                  <option value="4 days ago">Four Days Ago - <?= $fourdays ?></option>
+                 <option value="5 days ago">Five Days Ago - <?= $fivedays ?></option>
+                  <option value="6 days ago">Six Days Ago - <?= $sixdays ?></option>
+                   <option value="7 days ago">Seven Days Ago - <?= $sevendays ?></option>
+                    <option value="8 days ago">Eight Days Ago - <?= $eightdays ?></option>
                 </select>
               </div>
             </div>
@@ -130,7 +150,7 @@
     ?>
               <tr>
                 <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
-                <td><?= $row['num_visitors'] * 100 ?></td>
+                <td><?= $row['num_visitors'] ?></td>
               </tr>
 <?php } ?>
             </tbody>

@@ -85,7 +85,21 @@ drawForcedGraph(networkdataFilepath, false);
 d3.csv(streamdataFilepath, function(error, data) {
         data.forEach(function(d) {
             d.date = format.parse(d.date);
-            d.y = parseInt(d.num_visitors) + 1;
+            if (parseInt(d.num_visitors) === 0)
+                d.num_visitors = 1;
+
+            var realVisitors = parseInt(d.num_visitors);
+            //hack to accomodate the vast difference in museum numbers vs others
+            //we want pavilion #'s to 'look bigger' but not eclipse other data
+            if (d.venue == 'museum' || d.venue == 'Europe'){
+              d.num_visitors = realVisitors / 25;
+              d.num_visitors_display = realVisitors;
+              d.y = d.num_visitors;
+            } else{
+              d.y = realVisitors;
+              d.num_visitors_display = realVisitors;
+
+            }
             d.x = parseInt(d.index);
            
         });
@@ -101,17 +115,19 @@ function showDateInfo(e,d,i){
   //+ $(e)[0].getBoundingClientRect().width)
   //$('.day-' + i + ":last").offset()["top"]
   //$(e).offset()["top"]
+  //d3.event.clientY
   var name = d.key;
   if (model == "time")
       name = window.venuesProperNames[d.key];
   d3.select('#visitor-info')
     .style("display","block");
   d3.select('#visitor-info')
-    .style("top", function(d){return parseInt($(e).offset()["top"]) + "px"})
+    .style("top", function(d){return parseInt($('#streamgraph').offset()["top"]) + "px"})
+    //.style("top", function(d){return parseInt(d3.event.clientY) - 100 + "px"})
     .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"]) + "px"})
     .style("max-width", function(d){return parseInt($(window).width() - $('.day-' + i + ":last").offset()["left"]) + "px"})
     //.style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
-    .html( d.values[i].date.toString('ddd, MMM dd, yyyy') + " - " + name + " - " + (d.key == 'museum' ? d.values[i].num_visitors * 100 : d.values[i].num_visitors) + " visitors");
+    .html( d.values[i].date.toString('ddd, MMM dd, yyyy') + " - " + name + " - " + d.values[i].num_visitors_display + " visitors");
 }
 function showDayInfo(d,i){
 

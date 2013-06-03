@@ -49,6 +49,8 @@
         $name = $row["name"];
       }
     }
+  }else{
+    $person_id = -1;
   }
   //$streamdataFilepath = "data/streamdata_" . $model . "_" . $days . ".csv";
   //$networkdataFilepath = "data/networkdata_" . $model . "_" . $days . ".json";
@@ -111,7 +113,7 @@
     <div class="modal-footer">
      
       
-        <button id="sign-the-guestbook-button" class="btn btn-warning pull-right" style="margin-left:20px" data-dismiss="modal" aria-hidden="true">Sign the guestbook</button> 
+        <button class="sign-the-guestbook-button btn btn-warning pull-right" style="margin-left:20px" data-dismiss="modal" aria-hidden="true">Sign the guestbook</button> 
         <p>Signing the guestbook includes your name and location as part of the Sixth Room network visualization.</p>
       
     </div>
@@ -146,7 +148,7 @@
     <div class="modal-footer">
      
       
-        <button id="sign-the-guestbook-button" class="btn btn-warning pull-right" style="margin-left:20px" data-dismiss="modal" aria-hidden="true">Sign the guestbook</button> 
+        <button class="sign-the-guestbook-button btn btn-warning pull-right" style="margin-left:20px" data-dismiss="modal" aria-hidden="true">Sign the guestbook</button> 
         <p>Haven't signed the guestbook yet? Sign here</p>
       
     </div>
@@ -217,8 +219,9 @@ var isMobile = {
       $('#guestbook-form').show();
       $('#guestbook-form').find("input[type=text], textarea, select").val("")
     });
-    $('#sign-the-guestbook-button').click(function(){
+    $('.sign-the-guestbook-button').click(function(){
         $('#about-modal').modal('hide');
+        $('#search-modal').modal('hide');
         $('#guestbook-modal').modal();
     });
     $('#guestbook-about-button').click(function(){
