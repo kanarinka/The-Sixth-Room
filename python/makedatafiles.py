@@ -239,8 +239,8 @@ config = ConfigParser.ConfigParser()
 
 #ARG trying to get app dir sucks!!! This is a bad solution but I'm just doin it because I'm havin a baby!
 try:
-    if (os.path.isdir('home/ubuntu')):
-        config.read('home/ubuntu/thesixthroom/The-Sixth-Room/python/thesixthroom.config')
+    if (os.path.isdir('/home/ubuntu')):
+        config.read('/home/ubuntu/thesixthroom/The-Sixth-Room/python/thesixthroom.config')
     else:
         config.read('/Users/kanarinka/Sites/thesixthroom/python/thesixthroom.config')
 except IOError:

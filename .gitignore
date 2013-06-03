@@ -38,3 +38,7 @@ python/thesixthroom.server.config
 *.json
 
 *.json
+
+data/streamgraph_space.csv
+
+data/streamgraph_time.csv

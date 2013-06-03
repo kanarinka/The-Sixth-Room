@@ -95,7 +95,7 @@
             if ($duplicate_error){
               echo '<h4 style="color:red">Sorry, that date already has visitor data.</h4>';
             }
-            if ($output){
+            if (isset($output)){
               echo '<h4 style="color:red"> UPDATE RESULTS (If it says "all done, maestro" then 
                 everything updated properly. Otherwise, copy and paste message and send to Catherine):</h4><br/><pre>';
               echo var_dump($output);
