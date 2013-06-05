@@ -60,7 +60,7 @@
   }
   $streamdataFilepath = "data/streamgraph_" . $model . ".csv";
   $networkdataFilepath = "data/networkdata_" . $model . "_" . $current_network_date . ".json";
-
+  $worlddataFilepath = "data/networkdata_world.json";
 ?>
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -83,7 +83,7 @@
 
   <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a> | 
     <a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> | 
-    <a href="#" role="button" id="world-button" data-toggle="modal">world</a></h4>
+    <a href="?model=world" role="button" id="world-button" data-toggle="modal">world</a></h4>
   
   <div id="person-entered" style="position: absolute; left: 50%;">
     <p>Joseph Lacryphious from Salinas, KS, USA, just entered the network</p>
@@ -204,6 +204,7 @@ var isMobile = {
     var webHost = "<?= $WEB_PATH ?>";
     var streamdataFilepath = "<?= $streamdataFilepath ?>";
     var networkdataFilepath = "<?= $networkdataFilepath ?>";
+    var worlddataFilepath = "<?= $worlddataFilepath ?>";
     window.currentNetworkDate = "<?= $current_network_date ?>";
     var personID = "<?= $person_id ?>";
     var showGuestbook = "<?= $showGuestbook ?>";
@@ -228,9 +229,19 @@ var isMobile = {
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
-    $('#world-button').click(function(){alert('coming soon')});
+    
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41475633-1', 'thesixthroom.org');
+  ga('send', 'pageview');
+
+</script>
 
 </html>

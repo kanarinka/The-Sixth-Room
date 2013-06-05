@@ -64,11 +64,17 @@ function checkForNewPeople()
 
 if (model == "space"){
   $("#time-button").removeClass("selected");
+  $("#world-button").removeClass("selected");
   $("#space-button").addClass("selected");
 }
-else{
+else if (model == "time"){
   $("#time-button").addClass("selected");
   $("#space-button").removeClass("selected");
+  $("#world-button").removeClass("selected");
+} else if (model == "world"){
+  $("#world-button").addClass("selected");
+   $("#space-button").removeClass("selected");
+   $("#time-button").removeClass("selected");
 }
 window.continentsToColors = { "Antarctica":"#ff7f0d", 
                               "Australia":"#1e77b4", 
@@ -81,32 +87,40 @@ window.venuesToColors =     {'guestbook':'#65b1ce','museum':'#195165','online':'
 window.venuesProperNames =     {'guestbook':'Guestbook','museum':'US Pavilion','online':'Online'};
 
 var format = d3.time.format("%m/%d/%Y");
-drawForcedGraph(networkdataFilepath, false);
-d3.csv(streamdataFilepath, function(error, data) {
-        data.forEach(function(d) {
-            d.date = format.parse(d.date);
-            if (parseInt(d.num_visitors) === 0)
-                d.num_visitors = 1;
+var underlineDateFormat = d3.time.format("%Y_%m_%d");
 
-            var realVisitors = parseInt(d.num_visitors);
-            //hack to accomodate the vast difference in museum numbers vs others
-            //we want pavilion #'s to 'look bigger' but not eclipse other data
-            if (d.venue == 'museum' || d.venue == 'Europe'){
-              d.num_visitors = realVisitors / 25;
-              d.num_visitors_display = realVisitors;
-              d.y = d.num_visitors;
-            } else{
-              d.y = realVisitors;
-              d.num_visitors_display = realVisitors;
+if (model != "world"){
+  drawForcedGraph(networkdataFilepath, false);
+  d3.csv(streamdataFilepath, function(error, data) {
+          data.forEach(function(d) {
+              d.date = format.parse(d.date);
+              /*if (parseInt(d.num_visitors) === 0)
+                  d.num_visitors = 1;
+              */
+              var realVisitors = parseInt(d.num_visitors);
+              //hack to accomodate the vast difference in museum numbers vs others
+              //we want pavilion #'s to 'look bigger' but not eclipse other data
+              if (d.venue == 'museum' || d.venue == 'Europe'){
+                d.num_visitors = realVisitors / 25;
+                d.num_visitors_display = realVisitors;
+                d.y = d.num_visitors;
+              } else{
+                d.y = realVisitors;
+                d.num_visitors_display = realVisitors;
 
-            }
-            d.x = parseInt(d.index);
-           
-        });
-        window.data = data;
-        
-        drawStreamgraph();    
-});
+              }
+              d.x = parseInt(d.index);
+             
+          });
+          window.data = data;
+          
+          drawStreamgraph();    
+  });
+} else {
+
+  //show world graph, nothing on the bottom
+  drawWorldGraph(worlddataFilepath);
+}
 /*******************************************************
   Show mouseover info for Space view
 *******************************************************/
@@ -116,6 +130,8 @@ function showDateInfo(e,d,i){
   //$('.day-' + i + ":last").offset()["top"]
   //$(e).offset()["top"]
   //d3.event.clientY
+  //.style("top", function(d){return parseInt(d3.event.clientY) - 100 + "px"})
+  //.style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
   var name = d.key;
   if (model == "time")
       name = window.venuesProperNames[d.key];
@@ -123,10 +139,8 @@ function showDateInfo(e,d,i){
     .style("display","block");
   d3.select('#visitor-info')
     .style("top", function(d){return parseInt($('#streamgraph').offset()["top"]) + "px"})
-    //.style("top", function(d){return parseInt(d3.event.clientY) - 100 + "px"})
     .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"]) + "px"})
     .style("max-width", function(d){return parseInt($(window).width() - $('.day-' + i + ":last").offset()["left"]) + "px"})
-    //.style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"] + $(e)[0].getBoundingClientRect().width) + "px"})
     .html( d.values[i].date.toString('ddd, MMM dd, yyyy') + " - " + name + " - " + d.values[i].num_visitors_display + " visitors");
 }
 function showDayInfo(d,i){
@@ -134,8 +148,10 @@ function showDayInfo(d,i){
   d3.select('#date-info')
     .style("display","block");
   d3.select('#date-info')
-    .style("top", function(d){return parseInt($('.day-' + i + ":last").offset()["top"]) + "px"})
+    .style("top", function(d){return parseInt($('#streamgraph').offset()["top"]) + "px"})
     .style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"]) + "px"})
+    //.style("top", function(d){return parseInt($('.day-' + i + ":last").offset()["top"]) + "px"})
+    //.style("left", function(d){return parseInt($('.day-' + i + ":last").offset()["left"]) + "px"})
     .style("max-width", function(d){return parseInt($(window).width() - $('.day-' + i + ":last").offset()["left"]) + "px"})
     .html( d.values[i].date.toString('ddd, MMM dd, yyyy'));
 }
@@ -237,6 +253,10 @@ function drawStreamgraph(){
         
         showDateInfo(e, d, idx);
     }
+    function highlightDayGrey(e,d,i){
+        d3.select(e).style("fill-opacity","1.0").style("stroke-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
+        
+    }
     function unhighlightDay(e,d,i){
         var idx = e.id.substring(4);
         d3.selectAll('.day-' + parseInt(idx)).style("fill-opacity","0.0").style("stroke-opacity","0.0");
@@ -284,6 +304,7 @@ function drawStreamgraph(){
             } else{
               unhighlightStream(this,d,i);
               highlightDay(this, d, i);
+              highlightDayGrey(this,d,i);
               showNetworkNodes();
               hideDateInfo(d,idx);
             }
@@ -291,9 +312,12 @@ function drawStreamgraph(){
           })
           .on("click", function(d, i){
               var idx = this.id.substring(4);
-              /*unhighlightSelectedDay();
+              
+              //keep day highlighted 
+              unhighlightSelectedDay();
               highlightDay(this, d, i);
-              window.highlightedDay = this.id.substring(4);*/
+              window.highlightedDay = this.id.substring(4);
+
               var visit_date = d.values[idx]["date"];
               var year = visit_date.getFullYear();
               var month = visit_date.getMonth() + 1;
@@ -304,15 +328,30 @@ function drawStreamgraph(){
                 day = '0' + day.toString();
               window.currentNetworkDate = year + '_'+ month + '_' + day;
 
-              //showDayInfo(d, idx);
+              showDayInfo(d, idx);
               drawForcedGraph('data/networkdata_' + model + '_' + window.currentNetworkDate + '.json', false);
           });
     }
-    //select most recent day
-    /*var selectedElem = '.day-' + parseInt(samples-2);
+    
+  /*
+    Figure out which day should be highlighted - 
+    most recent day unless user has actually done a search and highlighted a particular date
+  */
+    var selectedDayIdx = parseInt(samples-2);
+    d3.selectAll('.stream-days').each(function(d,i){
+      var realIdx = this.id.substring(4);
+      
+      var currentDate = underlineDateFormat.parse(window.currentNetworkDate);
+
+      if (currentDate.toString() == d.values[realIdx].date.toString()){
+        selectedDayIdx = realIdx;
+      }
+        
+    });
+    var selectedElem = '.day-' + parseInt(selectedDayIdx);
     d3.selectAll(selectedElem).style("fill-opacity","1.0").style("fill","rgba(255,255,255,0.5)");
-    showDayInfo(d3.select(selectedElem).data()[0], samples-2);
-    window.highlightedDay = samples-2;*/
+    showDayInfo(d3.select(selectedElem).data()[0], selectedDayIdx);
+    window.highlightedDay = selectedDayIdx;
 }
 
 
@@ -461,7 +500,9 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
         d3.select("#name-label-" + d.idx).style("opacity","0.0").style("display","block").transition().duration().style("opacity","1.0");
       }
       function unhighlightNode(node, d){
-        node.transition().duration(500).style("stroke-width", 0).attr("r", function(d) { return d.is_guestbook_signer ? 10 : 5;});
+        node.transition().duration(500).style("stroke-width", 0).attr("r", function(d) { 
+          return d.is_guestbook_signer == "true" ? 10 : 5;
+        });
         d3.select("#name-label-" + d.idx).transition().delay(500).duration(700).style("opacity", "0.0").style("display", "none");
       }
       function tick() {
@@ -483,7 +524,7 @@ function drawForcedGraph(networkdataFilepath, highlightLatestNode){
         var latestNode = node[0][node[0].length -1];
         highlightNodeAndStayOn(d3.select(latestNode), latestNode['__data__']);
       }
-      if (personID != null && parseInt(personID) > 0){
+      if (personID != null && parseInt(personID) > 0 && $('#node-' + personID).length >0){
         highlightNodeAndStayOn(d3.select('#node-' + personID), d3.select('#node-' + personID).data()[0]);
       }
       var linkedByIndex = {};
@@ -520,4 +561,55 @@ function resumeForceGraph()
   .linkDistance(Math.floor(Math.random() * 50) + 10)
   .linkStrength(Math.random());
   window.force.start();
+}
+function drawWorldGraph(worlddataFilepath){
+  
+  var width = 960,
+    height = 500;
+
+  var color = d3.scale.category20();
+
+  var force = d3.layout.force()
+      .charge(-120)
+      .linkDistance(30)
+      .size([width, height]);
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  d3.json(worlddataFilepath, function(error, graph) {
+    force
+        .nodes(graph.nodes)
+        .links(graph.links)
+        .start();
+
+    var link = svg.selectAll(".link")
+        .data(graph.links)
+      .enter().append("line")
+        .attr("class", "link")
+        .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+    var node = svg.selectAll(".node")
+        .data(graph.nodes)
+      .enter().append("circle")
+        .attr("class", "node")
+        .attr("r", 5)
+        .style("fill", function(d) { return color(d.group); })
+        .call(force.drag);
+
+    node.append("title")
+        .text(function(d) { return d.name; });
+
+    force.on("tick", function() {
+      link.attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
+
+      node.attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+    });
+  });
+
 }

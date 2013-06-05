@@ -15,7 +15,7 @@
 			echo "Failed to connect to MySQL: " . mysqli_connect_error();
 		}
 
-		$sql="SELECT * FROM individual_visitors WHERE visit_date > '" . mysqli_real_escape_string($con, $after_date) . "'";
+		$sql="SELECT * FROM individual_visitors WHERE venue = 'GUESTBOOK' AND visit_date > '" . mysqli_real_escape_string($con, $after_date) . "'";
 	    
 	    $sql_result = mysqli_query($con,$sql);
 	    $updated = false;

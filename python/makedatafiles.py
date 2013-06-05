@@ -90,7 +90,7 @@ def makeNodes(date, model):
         
         conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
         cursor = conn.cursor()
-        sql = 'SELECT * FROM individual_visitors WHERE (continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') or (venue = \'GUESTBOOK\') ORDER BY visit_date'
+        sql = 'SELECT * FROM individual_visitors WHERE (continent != \'\' and visit_date LIKE \'' + date.strftime('%Y-%m-%d') + '%\') ORDER BY visit_date'
         
         #get all individual dates
         cursor.execute(sql)
@@ -217,7 +217,7 @@ def makeNetworkData(model, file_prefix):
     for date in alldates:
         nodes = makeNodes(date, model)
         links = makeLinks(date, model, nodes)
-        #pp.pprint(links)
+
         data = {"nodes":nodes, "links":links}
         filename = file_prefix + str(date).replace("-","_") +'.json'
         try:
@@ -229,7 +229,80 @@ def makeNetworkData(model, file_prefix):
         os.chmod(filename, 0o766)
         
 
-#def makeWorldNetworkData(filename):
+def makeWorldData(filename):
+    global pp, config 
+
+    try:
+        
+        conn = MySQLdb.connect(host = config.get('db','host'),user = config.get('db','user'),passwd = config.get('db','pass'),db = config.get('db','db_name'))
+        cursor = conn.cursor()
+
+        #get all individual dates
+        cursor.execute('SELECT COUNT( * ) AS visitors, country, continent FROM individual_visitors GROUP BY country ORDER BY country')
+
+        allcountries = cursor.fetchall()
+
+    except MySQLdb.Error, e:
+          
+            print "[ERROR] %d: %s\n" % (e.args[0], e.args[1])
+            sys.exit(1)
+
+    finally:
+        
+        if conn:
+            conn.close()
+
+    nodes = []
+    links = []
+    data = {"nodes":nodes, "links":links}
+    idx = 1
+    for country in allcountries:
+        #makenodes - 1 node per country
+        num_visitors = country[0]
+        country_name = country[1]
+        continent = country[2]
+
+        nodes.append( dict({'name': country_name, 'group': idx, 'idx': idx, 'continent':continent, 'num_visitors': num_visitors }) )
+        #makelinks - country gets linked to other nodes in its continent & linked to node before and after in alpha order?
+        idx +=1
+
+    for i in range(0, idx-1):
+        
+        
+        node = nodes[i]
+        source_node_id = node["idx"]
+        print source_node_id
+        continent = node["continent"]
+
+        #link to country before and after in alpha order
+        '''if (source_node_id > 1):
+            links.append(dict({"source":source_node_id,"target":source_node_id-1,"value":1}))
+        if (source_node_id < len(nodes) - 1):
+            links.append(dict({"source":source_node_id,"target":source_node_id+1,"value":1})) 
+'''
+        #now make 2 links to same continent if can find
+        #make a weaker link based on similar venue    
+        seeker = source_node_id + 1
+        
+        while (seeker < len(nodes)):
+            if (nodes[seeker]["continent"] == continent):
+                links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
+                print 'continent link' 
+                break
+            seeker +=1
+        seeker = source_node_id -1
+        
+        
+        while (seeker > 0):
+            if (nodes[seeker]["continent"] == continent):
+                links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
+                print 'continent link'
+                break
+            seeker -=1
+
+
+    json.dump(data, open(filename, 'w'),indent=1)
+    os.chmod(filename, 0o766)
 
 ################################################
 # MAIN
@@ -257,4 +330,7 @@ makeStreamgraphData('space',
                     ['Europe','North America','South America','Australia','Asia','Antarctica','Africa'])
 makeNetworkData('time', config.get('app','home_dir') + 'data/networkdata_time_')
 makeNetworkData('space', config.get('app','home_dir') + 'data/networkdata_space_')
+
+makeWorldData(config.get('app','home_dir') + 'data/networkdata_world.json')
+
 print "all done maestro"

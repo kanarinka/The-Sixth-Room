@@ -11,7 +11,7 @@
 			echo "Failed to connect to MySQL: " . mysqli_connect_error();
 		}
 
-		$sql="SELECT id, name, city, country FROM individual_visitors WHERE name LIKE '%" . mysqli_real_escape_string($con, $searchtext) . "%'";
+		$sql="SELECT id, name, city, country FROM individual_visitors WHERE venue = 'GUESTBOOK ' AND name LIKE '%" . mysqli_real_escape_string($con, $searchtext) . "%'";
 	    $sql_result = mysqli_query($con,$sql);
 	    
   		while($row = mysqli_fetch_array($sql_result)){
