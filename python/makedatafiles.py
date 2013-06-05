@@ -255,50 +255,31 @@ def makeWorldData(filename):
     nodes = []
     links = []
     data = {"nodes":nodes, "links":links}
-    idx = 1
+    idx = 0
     for country in allcountries:
         #makenodes - 1 node per country
         num_visitors = country[0]
         country_name = country[1]
         continent = country[2]
 
-        nodes.append( dict({'name': country_name, 'group': idx, 'idx': idx, 'continent':continent, 'num_visitors': num_visitors }) )
+        nodes.append( dict({'name': country_name, 'group': num_visitors, 'idx': idx, 'continent':continent, 'num_visitors': num_visitors }) )
         #makelinks - country gets linked to other nodes in its continent & linked to node before and after in alpha order?
         idx +=1
-
-    for i in range(0, idx-1):
-        
-        
-        node = nodes[i]
-        source_node_id = node["idx"]
-        print source_node_id
-        continent = node["continent"]
-
-        #link to country before and after in alpha order
-        '''if (source_node_id > 1):
-            links.append(dict({"source":source_node_id,"target":source_node_id-1,"value":1}))
-        if (source_node_id < len(nodes) - 1):
-            links.append(dict({"source":source_node_id,"target":source_node_id+1,"value":1})) 
-'''
-        #now make 2 links to same continent if can find
-        #make a weaker link based on similar venue    
-        seeker = source_node_id + 1
-        
-        while (seeker < len(nodes)):
-            if (nodes[seeker]["continent"] == continent):
-                links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
-                print 'continent link' 
-                break
-            seeker +=1
-        seeker = source_node_id -1
-        
-        
-        while (seeker > 0):
-            if (nodes[seeker]["continent"] == continent):
-                links.append(dict({"source":source_node_id,"target":seeker,"value":1}))
-                print 'continent link'
-                break
-            seeker -=1
+    
+    #now make 2 links to same continent if can find
+    #make a weaker link based on similar venue    
+    #try to make between 1-3 random spatial links
+    for i in range(2):
+        for node in nodes:
+            triesPossible = 30
+            triesActual = 0
+            randomNode = random.choice(nodes)
+            while ((node == randomNode or node["continent"] != randomNode["continent"]) and triesActual < triesPossible):
+                randomNode = random.choice(nodes)
+                triesActual +=1
+                
+            if (node["continent"] == randomNode["continent"]):
+                links.append(dict({"source":node['idx'],"target":randomNode["idx"],"value":1}))
 
 
     json.dump(data, open(filename, 'w'),indent=1)

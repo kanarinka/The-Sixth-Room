@@ -140,4 +140,14 @@ legend{
 #person-entered{
   display:none;
 }
+.popover{
+  font-size: 14px;
+  font-weight: normal;
 
+}
+.popover-title{
+  font-weight: bold;
+}
+#search-button{
+  padding-right: 100px;
+}

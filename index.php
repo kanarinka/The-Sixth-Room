@@ -81,7 +81,9 @@
   
   <!-- Main Nav  -->
 
-  <h4 id="time-space"><a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a> | 
+  <h4 id="time-space">
+
+    <a href="?model=space" id="space-button" role="button" data-toggle="modal">space</a> | 
     <a href="?model=time" role="button"  id="time-button" data-toggle="modal" class="selected">time</a> | 
     <a href="?model=world" role="button" id="world-button" data-toggle="modal">world</a></h4>
   
@@ -229,7 +231,14 @@ var isMobile = {
         $('#guestbook-modal').modal('hide');
         $('#about-modal').modal();
     });
-    
+    $('#time-button').popover({   'placement':'bottom','trigger':'hover','title':'Time View', 
+                                  'content':'View the network of visitors in the order they entered.'});
+    $('#space-button').popover({   'placement':'bottom','trigger':'hover','title':'Space View', 
+                                  'content':'View the network of visitors by their continents of origin.'});
+    $('#world-button').popover({   'placement':'bottom','trigger':'hover','title':'World View', 
+                                  'content':'View a network of visitor countries of origin.'});
+    $('#search-button').popover({   'placement':'bottom','trigger':'hover','title':'Search', 
+                                  'content':'Search for yourself or your friends in the network.'});
 
 </script>
 <script type="text/javascript" src="js/thesixthroom.js"></script>

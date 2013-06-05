@@ -101,7 +101,7 @@ if (model != "world"){
               //hack to accomodate the vast difference in museum numbers vs others
               //we want pavilion #'s to 'look bigger' but not eclipse other data
               if (d.venue == 'museum' || d.venue == 'Europe'){
-                d.num_visitors = realVisitors / 25;
+                d.num_visitors = realVisitors / 5;
                 d.num_visitors_display = realVisitors;
                 d.y = d.num_visitors;
               } else{
@@ -564,14 +564,17 @@ function resumeForceGraph()
 }
 function drawWorldGraph(worlddataFilepath){
   
-  var width = 960,
-    height = 500;
+  var width = $(window).width(),
+    height = $(window).height();
 
   var color = d3.scale.category20();
+  
+  
 
   var force = d3.layout.force()
-      .charge(-120)
-      .linkDistance(30)
+      .charge(-400)
+      .linkDistance(70)
+      .linkStrength(0.1)
       .size([width, height]);
 
   var svg = d3.select("body").append("svg")
@@ -583,6 +586,12 @@ function drawWorldGraph(worlddataFilepath){
         .nodes(graph.nodes)
         .links(graph.links)
         .start();
+    var maxVisitors = d3.max(graph.nodes, function(d) { 
+                    return d.num_visitors; 
+                  });
+    var nodeSize = d3.scale.log()
+      .domain([1, maxVisitors])
+      .range([5, 70]);
 
     var link = svg.selectAll(".link")
         .data(graph.links)
@@ -590,16 +599,43 @@ function drawWorldGraph(worlddataFilepath){
         .attr("class", "link")
         .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-    var node = svg.selectAll(".node")
-        .data(graph.nodes)
-      .enter().append("circle")
-        .attr("class", "node")
-        .attr("r", 5)
-        .style("fill", function(d) { return color(d.group); })
-        .call(force.drag);
+    var node = svg.selectAll("g.node") 
+      .data(graph.nodes) 
+      .enter().append("svg:g") 
+      .attr("class", "node")
+      .call(force.drag);
+
+    node.append("svg:circle")  
+      .attr("r", function(d) { return nodeSize(d.num_visitors); })
+      .style("fill", function(d) { 
+        if (d.num_visitors == maxVisitors)
+          return "red";
+        else 
+          return window.continentsToColors[d.continent]; 
+      });
+ 
 
     node.append("title")
         .text(function(d) { return d.name; });
+    
+    node.append("svg:text") 
+      .style("pointer-events", "none") 
+      .attr("fill", function(d) { 
+        if (d.num_visitors == maxVisitors)
+          return '#fff';
+        else
+          return "#ccc"; 
+      }) 
+      .attr("font-size", "12px") 
+      .attr("font-weight", "bold") 
+      .attr("dx", function(d) { 
+        if (d.num_visitors == maxVisitors)
+          return -30;
+        else
+          return nodeSize(d.num_visitors) + 3; 
+      }) 
+      .attr("dy", ".35em") 
+      .text(function(d) { return d.name + ' (' + d.num_visitors + ')'; });
 
     force.on("tick", function() {
       link.attr("x1", function(d) { return d.source.x; })
@@ -607,8 +643,8 @@ function drawWorldGraph(worlddataFilepath){
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; });
 
-      node.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+      node.attr("transform", function(d) { return "translate(" + d.x + 
+"," + d.y + ")"; }); 
     });
   });
 
