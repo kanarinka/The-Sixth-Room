@@ -46,7 +46,7 @@
             </thead>
             <tbody>
 <?php
-  $result = mysqli_query($con,"SELECT * FROM individual_visitors ORDER BY visit_date DESC");
+  $result = mysqli_query($con,"SELECT * FROM individual_visitors WHERE venue = 'GUESTBOOK' ORDER BY visit_date DESC");
   while($row = mysqli_fetch_array($result))
   {
 
@@ -54,7 +54,7 @@
               <tr>
                 <td><?php echo $row['name'] ?></td>
                 <td><?php echo date("D M j Y", strtotime( $row['visit_date']) )?> </td>
-                <td><?php echo $row['city'] ?>, <?php echo $row['state'] ?>, <?php echo $row['country'] ?></td>
+                <td><?php echo $row['city'] ?>, <?php echo $row['country'] ?></td>
                 <!--<td><?php echo $row['comments'] ?></td>-->
               </tr>
 <?php } ?>
