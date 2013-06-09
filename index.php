@@ -57,7 +57,11 @@
   if (!isset($current_network_date)){
     $yesterday = date("Y_m_d", time() - 60 * 60 * 24);
     $current_network_date = $yesterday;
-  }
+    $current_network_date = date("Y_m_d", time());
+    
+  } 
+  $current_network_date_today = date("Y_m_d", time());
+
   $streamdataFilepath = "data/streamgraph_" . $model . ".csv";
   $networkdataFilepath = "data/networkdata_" . $model . "_" . $current_network_date . ".json";
   $worlddataFilepath = "data/networkdata_world.json";
@@ -197,22 +201,28 @@ var isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
+
+
 </script>
 <script type="text/javascript">
     if (!isMobile.any())
       window.onresize = function(){window.location.reload();}
 
-    var networkdataFilepath = "<?= $networkdataFilepath ?>";
-    var webHost = "<?= $WEB_PATH ?>";
-    var streamdataFilepath = "<?= $streamdataFilepath ?>";
-    var networkdataFilepath = "<?= $networkdataFilepath ?>";
-    var worlddataFilepath = "<?= $worlddataFilepath ?>";
-    window.currentNetworkDate = "<?= $current_network_date ?>";
-    var personID = "<?= $person_id ?>";
-    var showGuestbook = "<?= $showGuestbook ?>";
-    var lastTime = "<?= time() ?>";
+    var networkdataFilepath = "<?php echo $networkdataFilepath ?>";
+    var webHost = "<?php echo $WEB_PATH ?>";
+    var streamdataFilepath = "<?php echo $streamdataFilepath ?>";
+    var networkdataFilepath = "<?php echo $networkdataFilepath ?>";
+    var worlddataFilepath = "<?php echo $worlddataFilepath ?>";
+    window.currentNetworkDate = "<?php echo $current_network_date; ?>";
+    window.currentNetworkDateToday = "<?php echo $current_network_date_today ?>";
+    console.log(window.currentNetworkDate)
+    console.log(window.currentNetworkDateToday)
 
-    var model = "<?= $model ?>";
+    var personID = "<?php echo $person_id ?>";
+    var showGuestbook = "<?php echo $showGuestbook ?>";
+    var lastTime = "<?php echo time() ?>";
+
+    var model = "<?php echo $model ?>";
 
     if (showGuestbook){
       $('#guestbook-modal').modal();

@@ -5,6 +5,7 @@
 	$after_date = $_REQUEST['after_date'];
 	$new_time = time();
 	$text = "";
+	$person_id = -1;
 	$result = array("new_time" => $new_time, "text" => $text);
 	if (isset($after_date)){
 
@@ -25,11 +26,13 @@
   			$updated = true;
   		}
   		if ($updated){
+  			$person_id = mysqli_insert_id($con);
   			//run python script to generate new files
   			exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
   		}
   		$result["text"] = $text;
   		$result["sql"] = $sql;
+  		$result["person_id"] = $person_id;
   		echo json_encode($result);
     }
 ?>

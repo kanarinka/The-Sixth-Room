@@ -281,7 +281,10 @@ def makeWorldData(filename):
             if (node["continent"] == randomNode["continent"]):
                 links.append(dict({"source":node['idx'],"target":randomNode["idx"],"value":1}))
 
-
+    try:
+       os.remove(filename)
+    except OSError:
+       print 'file ' + filename + ' doesnt exist, continuing'
     json.dump(data, open(filename, 'w'),indent=1)
     os.chmod(filename, 0o766)
 

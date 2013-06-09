@@ -52,10 +52,10 @@
 
     ?>
               <tr>
-                <td><?= $row['name'] ?></td>
-                <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
-                <td><?= $row['city'] ?>, <?= $row['state'] ?>, <?= $row['country'] ?></td>
-                <!--<td><?= $row['comments'] ?></td>-->
+                <td><?php echo $row['name'] ?></td>
+                <td><?php echo date("D M j Y", strtotime( $row['visit_date']) )?> </td>
+                <td><?php echo $row['city'] ?>, <?php echo $row['state'] ?>, <?php echo $row['country'] ?></td>
+                <!--<td><?php echo $row['comments'] ?></td>-->
               </tr>
 <?php } ?>
             </tbody>

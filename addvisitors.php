@@ -114,15 +114,15 @@
               <label class="control-label" for="inputPassword">For Date:</label>
               <div class="controls">
                 <select name="visit_date">
-                  <option value="today">Today - <?= $today ?></option>
-                  <option value="yesterday">Yesterday - <?= $yesterday ?></option>
-                  <option value="2 days ago">Two Days Ago - <?= $twodays ?></option>
-                  <option value="3 days ago">Three Days Ago - <?= $threedays ?></option>
-                  <option value="4 days ago">Four Days Ago - <?= $fourdays ?></option>
-                 <option value="5 days ago">Five Days Ago - <?= $fivedays ?></option>
-                  <option value="6 days ago">Six Days Ago - <?= $sixdays ?></option>
-                   <option value="7 days ago">Seven Days Ago - <?= $sevendays ?></option>
-                    <option value="8 days ago">Eight Days Ago - <?= $eightdays ?></option>
+                  <option value="today">Today - <?php echo $today ?></option>
+                  <option value="yesterday">Yesterday - <?php echo $yesterday ?></option>
+                  <option value="2 days ago">Two Days Ago - <?php echo $twodays ?></option>
+                  <option value="3 days ago">Three Days Ago - <?php echo $threedays ?></option>
+                  <option value="4 days ago">Four Days Ago - <?php echo $fourdays ?></option>
+                 <option value="5 days ago">Five Days Ago - <?php echo $fivedays ?></option>
+                  <option value="6 days ago">Six Days Ago - <?php echo $sixdays ?></option>
+                   <option value="7 days ago">Seven Days Ago - <?php echo $sevendays ?></option>
+                    <option value="8 days ago">Eight Days Ago - <?php echo $eightdays ?></option>
                 </select>
               </div>
             </div>
@@ -149,8 +149,8 @@
 
     ?>
               <tr>
-                <td><?= date("D M j Y", strtotime( $row['visit_date']) )?> </td>
-                <td><?= $row['num_visitors'] ?></td>
+                <td><?php echo date("D M j Y", strtotime( $row['visit_date']) )?> </td>
+                <td><?php echo $row['num_visitors'] ?></td>
               </tr>
 <?php } ?>
             </tbody>

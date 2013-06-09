@@ -18,6 +18,9 @@ function search(){
              success: function(results){  
                 $('#search-results').fadeIn();
                 $('#search-results').find('ul').html("");
+                if (model == "world"){
+                  model = "time";
+                }
                 for (var i=0;i<results.length;i++){
                     var result = results[i];
                     var shareLink = 'http://www.thesixthroom.org/index.php?p=' + result["db_id"] + '&model=' + model;
@@ -46,14 +49,21 @@ function checkForNewPeople()
              dataType: "json",
              success: function(result){  
                   if (result["text"] && result["text"].length > 0){
+                      lastTime = result["new_time"];
                       $('#person-entered').show();
                       $('#person-entered p').html(result["text"]);
-                      $('#person-entered p').one().animate({top:'-1px'}, 500).delay(5000).animate({top:'-100px'}, 500, function(){$('#person-entered').hide();});    
-                      lastTime = result["new_time"];
-                      window.setTimeout(function(){
-                        drawForcedGraph('data/networkdata_' + model + '_' + window.currentNetworkDate + '.json', true);
-                      },2000);
-                      //basically force a refresh to incorporate the new node
+                      $('#person-entered p').one().animate({top:'-1px'}, 500).delay(5000).animate({top:'-100px'}, 500, 
+                        //basically force a refresh to incorporate the new node
+                        function(){
+                            $('#person-entered').hide();
+                            window.setTimeout(function(){
+                              $personID = result["person_id"];
+                              drawForcedGraph('data/networkdata_' + model + '_' + window.currentNetworkDateToday + '.json', true);
+                            },2000);
+
+                      });    
+                      
+                      
                       
                   }
               

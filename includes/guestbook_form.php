@@ -24,9 +24,14 @@
     if (!mysqli_query($con,$sql))
     {
       die('Error: ' . mysqli_error($con));
-    } 
-
-  }
+    } else{
+      $person_id = mysqli_insert_id($con);
+      //run python script to generate new files
+      exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
+    }
+    
+    echo $person_id;
+  } else {
 ?>
 
 <div id="guestbook-form-div">
@@ -68,9 +73,10 @@
     
   </form>
 
-  <div id="guestbook-result" style="display:none">Thanks for your info. You have now entered the Sixth Room network.</div>
+  
 
 </div>
+<div id="guestbook-result" style="display:none">Thanks for your info. You have now entered the Sixth Room network.</div>
 <script type="text/javascript">
     $('#sign-the-guestbook-submit').click(function(){
         var errors = false;
@@ -91,15 +97,14 @@
           $('#location-group').find('span.help-inline').hide();
         }
         if(!errors){
+          $('#guestbook-modal').modal('hide');
           $.ajax({
              url: webHost + 'includes/guestbook_form.php' , 
              type: 'POST',
              data: $("#guestbook-form").serialize()+ "&country=" + $('#country_abbreviation').find(":selected").text(),
              success: function(result){     
-               $('#guestbook-form').hide();
-               $('#result').show();
-               $('#guestbook-modal').modal('hide');
-             
+
+                window.location.href = "index.php?p="+result+"&model=time";
              }
           });   
         }
@@ -107,3 +112,4 @@
      });
     
 </script>
+<?php } ?>

@@ -157,14 +157,13 @@ function storeResults(&$results){
       } 
       echo "Stored " . $city . " " . $state . " " . $country . " " . $continent . " " . $hour . "<br/>\n";
       $i++;
-    }
-    if ($i > 0){
+    }   
+  }
+  if ($i > 0){
         //run python script to generate new json data files
         exec("python " . $SERVER_PATH ."python/makedatafiles.py", $output);
-
-    }
-
-     
+        echo "OUTPUT OF PYTHON SCRIPT UPDATE IS: \n\n";
+        echo var_dump($output);
   }
 }
 function preg_grep_keys( $pattern, $input, $flags = 0 )
